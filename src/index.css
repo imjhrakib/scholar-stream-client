@@ -1,0 +1,18 @@
+/* urbanist google font url */
+@import url("https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap");
+
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: light --default;
+}
+
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  --color-primary: #4caf50;
+  --color-secondary: #2196f3;
+}
+
+body {
+  font-family: "Urbanist", sans-serif;
+}
