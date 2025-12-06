@@ -60,7 +60,7 @@ const Login = () => {
           <button className="btn btn-neutral mt-4">Login</button>
         </fieldset>
         <p>
-          New to scholarShips{" "}
+          New to scholarStream{" "}
           <Link
             state={location?.state}
             to={"/register"}
