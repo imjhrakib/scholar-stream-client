@@ -2,14 +2,15 @@ import React from "react";
 import logo from "../../assets/logo.png";
 import PrimaryBtn from "../ui/PrimaryBtn";
 import SecondaryBtn from "../ui/SecondaryBtn";
+import { NavLink } from "react-router";
 const Navbar = () => {
   const links = (
     <>
-      <li>
-        <a>Home</a>
+      <li className="font-semibold">
+        <NavLink>Home</NavLink>
       </li>
-      <li>
-        <a>All Scholarships</a>
+      <li className="font-semibold">
+        <NavLink>All Scholarships</NavLink>
       </li>
     </>
   );
@@ -50,8 +51,14 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
       <div className="navbar-end flex gap-2.5">
-        <PrimaryBtn btnText={"Login"}></PrimaryBtn>
-        <SecondaryBtn btnText={"Register"}></SecondaryBtn>
+        <NavLink to={"/login"}>
+          {" "}
+          <PrimaryBtn btnText={"Login"}></PrimaryBtn>
+        </NavLink>
+
+        <div className="hidden md:block">
+          <SecondaryBtn btnText={"Register"}></SecondaryBtn>
+        </div>
       </div>
     </div>
   );
