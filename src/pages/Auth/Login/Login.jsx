@@ -2,27 +2,26 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import SocialLogin from "../SocialLogin/SocialLogin";
+import useAuth from "../../../hooks/useAuth";
 
 const Login = () => {
-  // const location = useLocation();
+  const location = useLocation();
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  // const { signInUser } = useAuth();
+  const { signInUser } = useAuth();
+
   const handleLogin = (data) => {
-    console.log("login");
+    signInUser(data.email, data.password)
+      .then((result) => {
+        navigate(location?.state || "/");
+      })
+      .catch((error) => console.log(error.message));
   };
-  // const handleLogin = (data) => {
-  //   signInUser(data.email, data.password)
-  //     .then((result) => {
-  //       navigate(location?.state || "/");
-  //     })
-  //     .catch((error) => console.log(error.message));
-  // };
   return (
     <div className="card bg-base-100 w-full mx-auto max-w-sm shrink-0 shadow-2xl">
       <h2 className="text-center text-3xl font-bold mt-5">Login Now</h2>
