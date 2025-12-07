@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import logo from "../../assets/logo.png";
 import PrimaryBtn from "../ui/PrimaryBtn";
 import SecondaryBtn from "../ui/SecondaryBtn";
 import { NavLink } from "react-router";
+import useAuth from "../../hooks/useAuth";
 const Navbar = () => {
+  const { user, logOut } = useAuth();
+  const [open, setOpen] = useState(false);
+  const dropdownRef = useRef(null);
   const links = (
     <>
       <li className="font-semibold">
@@ -12,8 +16,24 @@ const Navbar = () => {
       <li className="font-semibold">
         <NavLink>All Scholarships</NavLink>
       </li>
+      {user && <></>}
     </>
   );
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
@@ -51,16 +71,54 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
       <div className="navbar-end flex gap-2.5">
-        <NavLink to={"/login"}>
-          {" "}
-          <PrimaryBtn btnText={"Login"}></PrimaryBtn>
-        </NavLink>
+        {user ? (
+          <>
+            <div ref={dropdownRef} className="relative">
+              {/* Profile Image */}
+              <img
+                onClick={() => setOpen(!open)}
+                src={user?.photoURL}
+                className="w-8 h-8 rounded-full border border-gray-600 p-0.5 cursor-pointer
+              transition duration-300 hover:shadow-xl hover:ring-2 hover:ring-blue-500"
+                alt="User"
+              />
 
-        <div className="hidden md:block">
-          <NavLink to={"/register"}>
-            <SecondaryBtn btnText={"Register"}></SecondaryBtn>
-          </NavLink>
-        </div>
+              {/* Dropdown Menu */}
+              {open && (
+                <div className="absolute right-0 mt-3 w-44 bg-white rounded-lg shadow-lg z-50">
+                  <p className="px-4 py-2 text-sm text-gray-700 border-b">
+                    {user?.displayName || "User"}
+                  </p>
+                  <NavLink
+                    to="/dashboard"
+                    className="block px-4 py-2 text-sm hover:bg-gray-100"
+                  >
+                    Dashboard
+                  </NavLink>
+                  <button
+                    onClick={logOut}
+                    className="w-full text-left px-4 py-2 text-sm hover:bg-red-50 text-red-600"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          </>
+        ) : (
+          <>
+            <NavLink to={"/login"}>
+              {" "}
+              <PrimaryBtn btnText={"Login"}></PrimaryBtn>
+            </NavLink>
+
+            <div className="hidden md:block">
+              <NavLink to={"/register"}>
+                <SecondaryBtn btnText={"Register"}></SecondaryBtn>
+              </NavLink>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
