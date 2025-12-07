@@ -18,11 +18,8 @@ const Register = () => {
   const axiosSecure = useAxiosSecure();
   const axios = useAxios();
   const handleRegistration = (data) => {
-    console.log("after register", data);
     const profileImg = data.photo[0];
     registerUser(data.email, data.password).then((result) => {
-      console.log(result.user);
-
       // store the image and get the photo url
       const formData = new FormData();
       formData.append("image", profileImg);
