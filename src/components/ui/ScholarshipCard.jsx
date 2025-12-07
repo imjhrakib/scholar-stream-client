@@ -1,27 +1,30 @@
 import React from "react";
-import SecondaryBtn from "./SecondaryBtn";
+import { motion } from "framer-motion";
 
-const ScholarShipCard = () => {
+const ScholarshipCard = ({ scholarship }) => {
   return (
-    <div className="card bg-base-100 w-96 shadow-sm">
-      <figure>
-        <img
-          src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-          alt="Shoes"
-        />
-      </figure>
-      <div className="card-body">
-        <h2 className="card-title">Card Title</h2>
-        <p>
-          A card component has a figure, a body part, and inside body there are
-          title and actions parts
+    <motion.div
+      className="bg-white p-6 rounded-xl shadow-lg border border-gray-200 hover:shadow-2xl transition-shadow duration-300 flex flex-col justify-between"
+      whileHover={{ scale: 1.05 }}
+      transition={{ type: "spring", stiffness: 250 }}
+    >
+      {/* Scholarship Info */}
+      <div className="mb-4">
+        <h3 className="text-xl font-semibold text-gray-900 mb-2">
+          {scholarship.name}
+        </h3>
+        <p className="text-gray-600 mb-1">
+          University: {scholarship.university}
         </p>
-        <div className="card-actions justify-end">
-          <SecondaryBtn btnText={"View Details"}></SecondaryBtn>
-        </div>
+        <p className="text-gray-600 mb-2">Fee: ${scholarship.fee}</p>
       </div>
-    </div>
+
+      {/* Button */}
+      <button className="mt-auto bg-blue-600 text-white px-5 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+        View Details
+      </button>
+    </motion.div>
   );
 };
 
-export default ScholarShipCard;
+export default ScholarshipCard;
