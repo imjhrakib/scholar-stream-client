@@ -57,7 +57,9 @@ const Navbar = () => {
         </NavLink>
 
         <div className="hidden md:block">
-          <SecondaryBtn btnText={"Register"}></SecondaryBtn>
+          <NavLink to={"/register"}>
+            <SecondaryBtn btnText={"Register"}></SecondaryBtn>
+          </NavLink>
         </div>
       </div>
     </div>

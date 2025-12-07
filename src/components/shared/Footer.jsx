@@ -64,7 +64,7 @@ const Footer = () => {
         </div>
 
         {/* Social Media */}
-        <div className="flex flex-col md:w-1/6">
+        <div className="flex flex-col md:w-1/6 sm:mr-15">
           <h3 className="font-semibold text-white mb-3 text-lg">Follow Us</h3>
           <div className="flex space-x-4">
             <a
