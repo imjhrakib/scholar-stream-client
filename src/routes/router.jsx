@@ -5,6 +5,8 @@ import AuthLayout from "../layouts/AuthLayout";
 import Login from "../pages/Auth/Login/Login";
 import Register from "../pages/Auth/Register/Register";
 import Error404 from "../pages/ErrorPage/ErrorPage";
+import DashboardLayout from "../layouts/DashboardLayout";
+import AllScholarships from "../pages/AllScholarships/AllScholarships";
 
 export const router = createBrowserRouter([
   {
@@ -14,6 +16,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         Component: Home,
+      },
+      {
+        path: "scholarships",
+        Component: AllScholarships,
       },
     ],
   },
@@ -30,6 +36,11 @@ export const router = createBrowserRouter([
         Component: Register,
       },
     ],
+  },
+  {
+    path: "/dashboard",
+    Component: DashboardLayout,
+    children: [],
   },
   {
     path: "*",

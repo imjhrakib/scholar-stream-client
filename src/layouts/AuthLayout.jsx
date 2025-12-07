@@ -6,10 +6,8 @@ import Footer from "../components/shared/Footer";
 const AuthLayout = () => {
   return (
     <>
-      <div className="max-w-7xl mx-auto">
-        <Navbar></Navbar>
-        <Outlet></Outlet>
-      </div>
+      <Navbar></Navbar>
+      <Outlet></Outlet>
       <Footer></Footer>
     </>
   );
