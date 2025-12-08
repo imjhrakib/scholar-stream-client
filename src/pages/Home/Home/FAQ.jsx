@@ -31,7 +31,7 @@ const FAQ = () => {
               className="border-l-4 border-blue-600 bg-gray-50 p-4 rounded shadow-sm"
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: false, amount: 0.3 }}
+              viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.5, delay: i * 0.2 }}
             >
               <h4 className="font-semibold text-lg mb-1">{f.question}</h4>

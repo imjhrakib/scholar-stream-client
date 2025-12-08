@@ -7,13 +7,25 @@ const SuccessStories = () => {
       name: "Alice Johnson",
       role: "Software Engineering Student",
       text: "I got my dream scholarship through this platform. It was simple and fast!",
-      image: "https://randomuser.me/api/portraits/women/44.jpg",
+      image: "https://randomuser.me/api/portraits/women/12.jpg",
     },
     {
       name: "Mark Williams",
       role: "Business Student",
       text: "Scholar Stream helped me find multiple scholarships I didn’t know existed.",
-      image: "https://randomuser.me/api/portraits/men/32.jpg",
+      image: "https://randomuser.me/api/portraits/men/15.jpg",
+    },
+    {
+      name: "Sophia Lee",
+      role: "Medical Student",
+      text: "The platform is very user-friendly and I found a perfect scholarship for my needs.",
+      image: "https://randomuser.me/api/portraits/women/21.jpg",
+    },
+    {
+      name: "James Brown",
+      role: "Arts Student",
+      text: "Thanks to Scholar Stream, I could apply for several scholarships quickly and easily.",
+      image: "https://randomuser.me/api/portraits/men/27.jpg",
     },
   ];
 
@@ -31,7 +43,7 @@ const SuccessStories = () => {
               className="bg-white p-6 rounded-xl shadow-lg border border-gray-200"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.3 }}
+              viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.6, delay: i * 0.2 }}
             >
               <p className="text-gray-700 mb-4">"{t.text}"</p>
