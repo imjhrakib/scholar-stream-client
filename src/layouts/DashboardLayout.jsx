@@ -16,17 +16,20 @@ const DashboardLayout = () => {
   const { user } = useAuth();
   const { role } = useRole();
   const [clickNav, setClickNav] = useState(false);
+
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
         {/* Navbar */}
-        <nav className="navbar w-full bg-base-300">
+        <nav className="navbar w-full bg-base-300 text-indigo-700">
           <label
             htmlFor="my-drawer-4"
             aria-label="open sidebar"
             className="btn btn-square btn-ghost"
-            onClick={() => setClickNav(!clickNav)}
+            onClick={() => {
+              setClickNav(!clickNav);
+            }}
           >
             {/* Sidebar toggle icon */}
             <svg
@@ -65,7 +68,7 @@ const DashboardLayout = () => {
         ></label>
         <div className="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-18 is-drawer-open:w-64">
           {/* Sidebar content here */}
-          <ul className="menu w-full grow">
+          <ul className="menu w-full grow text-slate-800 font-semibold">
             {/* My Profile*/}
             <li>
               <Link
@@ -95,18 +98,27 @@ const DashboardLayout = () => {
                 data-tip="Homepage"
               >
                 {/* Home icon */}
-                <AiOutlineHome size={24}></AiOutlineHome>
+                <AiOutlineHome
+                  size={24}
+                  className="text-sky-600"
+                ></AiOutlineHome>
                 <span className="is-drawer-close:hidden">Home</span>
               </Link>
             </li>
             <li>
               <Link
+                onClick={() => {
+                  setDrawerState(false);
+                }}
                 to={"/dashboard"}
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                 data-tip="Dashboard Home"
               >
                 {/* Home icon */}
-                <AiOutlineDashboard size={24}></AiOutlineDashboard>
+                <AiOutlineDashboard
+                  size={24}
+                  className="text-indigo-600"
+                ></AiOutlineDashboard>
                 <span className="is-drawer-close:hidden">Dashboard Home</span>
               </Link>
             </li>
@@ -119,7 +131,10 @@ const DashboardLayout = () => {
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                     data-tip="Add Scholarship"
                   >
-                    <AiOutlinePlusCircle size={24} />
+                    <AiOutlinePlusCircle
+                      className="text-emerald-600"
+                      size={24}
+                    />
                     <span className="is-drawer-close:hidden">
                       Add Scholarship
                     </span>
@@ -132,7 +147,7 @@ const DashboardLayout = () => {
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                     data-tip="Manage Scholarship"
                   >
-                    <AiOutlineBook size={24} />
+                    <AiOutlineBook size={24} className="text-amber-600" />
                     <span className="is-drawer-close:hidden">
                       Manage Scholarship
                     </span>
@@ -145,7 +160,7 @@ const DashboardLayout = () => {
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                     data-tip="Manage User"
                   >
-                    <FaUsers size={24} />
+                    <FaUsers size={24} className="text-purple-600" />
                     <span className="is-drawer-close:hidden">Manage User</span>
                   </Link>
                 </li>
@@ -156,7 +171,7 @@ const DashboardLayout = () => {
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                     data-tip="Analytics"
                   >
-                    <AiOutlineBarChart size={24} />
+                    <AiOutlineBarChart size={24} className="text-rose-600" />
                     <span className="is-drawer-close:hidden">Analytics</span>
                   </Link>
                 </li>
@@ -170,7 +185,7 @@ const DashboardLayout = () => {
                 data-tip="Settings"
               >
                 {/* Settings icon */}
-                <VscSettings size={24} />
+                <VscSettings size={24} className="text-gray-600" />
                 <span className="is-drawer-close:hidden">Settings</span>
               </Link>
             </li>
