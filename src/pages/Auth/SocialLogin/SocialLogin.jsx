@@ -16,9 +16,8 @@ const SocialLogin = () => {
         const userInfo = {
           email: result.user.email,
           displayName: result.user.displayName,
-          photoURL: result.user.photoUrl,
+          photoURL: result.user.photoURL,
         };
-        console.log(result);
         axiosSecure.post("/users", userInfo).then((res) => {
           navigate(location?.state || "/");
         });

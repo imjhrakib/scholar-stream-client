@@ -121,7 +121,7 @@ const Navbar = () => {
           <div ref={dropdownRef} className="relative">
             <img
               onClick={() => setProfileOpen(!profileOpen)}
-              src={user.photoURL}
+              src={user?.photoURL}
               alt="User"
               className="w-10 h-10 rounded-full border border-gray-300 cursor-pointer hover:ring-2 hover:ring-blue-500 transition"
             />
@@ -161,7 +161,7 @@ const Navbar = () => {
         )}
       </div>
 
-      {/* ✅ Animated Mobile Menu */}
+      {/* Animated Mobile Menu */}
       <AnimatePresence>
         {mobileOpen && (
           <>
