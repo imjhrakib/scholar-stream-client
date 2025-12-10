@@ -50,8 +50,8 @@ const DashboardLayout = () => {
 
           <div className="px-4 text-lg font-semibold">
             {role === "admin" && <span>ScholarStream Admin Panel</span>}
-            {role === "moderator" && <span>ScholarStream Admin Panel</span>}
-            {role === "user" && <span>ScholarStream Admin Panel</span>}
+            {role === "moderator" && <span>ScholarStream Moderator Panel</span>}
+            {role === "user" && <span>ScholarStream User Panel</span>}
           </div>
         </nav>
         {/* Page content here */}
@@ -72,6 +72,7 @@ const DashboardLayout = () => {
             {/* My Profile*/}
             <li>
               <Link
+              to={"/dashboard/my-profile"}
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                 data-tip="Profile"
               >
