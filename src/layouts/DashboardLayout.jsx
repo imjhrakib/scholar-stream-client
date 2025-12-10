@@ -72,7 +72,7 @@ const DashboardLayout = () => {
             {/* My Profile*/}
             <li>
               <Link
-              to={"/dashboard/my-profile"}
+                to={"/dashboard/my-profile"}
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                 data-tip="Profile"
               >
@@ -81,7 +81,7 @@ const DashboardLayout = () => {
                   <img
                     src={user?.photoURL}
                     alt="User"
-                    className={`rounded-full border border-gray-300 cursor-pointer transition-all duration-300
+                    className={`rounded-full border border-blue-600 cursor-pointer transition-all duration-300
                   ${clickNav ? "w-10 h-10" : "w-8 h-8"}`}
                   />
                   {clickNav && (

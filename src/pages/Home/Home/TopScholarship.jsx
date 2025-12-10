@@ -1,16 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ScholarshipCard from "../../../components/ui/ScholarshipCard";
 import { motion } from "framer-motion";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const TopScholarship = () => {
-  const scholarships = [
-    { name: "Scholarship 1", university: "Uni 1", fee: 0 },
-    { name: "Scholarship 2", university: "Uni 2", fee: 100 },
-    { name: "Scholarship 3", university: "Uni 3", fee: 50 },
-    { name: "Scholarship 4", university: "Uni 4", fee: 0 },
-    { name: "Scholarship 5", university: "Uni 5", fee: 20 },
-    { name: "Scholarship 6", university: "Uni 6", fee: 0 },
-  ];
+  const [scholarships, setScholarships] = useState([]);
+  const axiosSecure = useAxiosSecure();
+  // axiosSecure.get("/scholarships").then((res) => setScholarships(res.data));
+  useEffect(() => {
+    const fetchScholarships = async () => {
+      try {
+        const res = await axiosSecure.get("/scholarships");
+        setScholarships(res.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchScholarships();
+  }, [axiosSecure]);
 
   return (
     <div className="p-10">

@@ -6,7 +6,7 @@ import logo from "../../assets/logo.png";
 import PrimaryBtn from "../ui/PrimaryBtn";
 import SecondaryBtn from "../ui/SecondaryBtn";
 import useAuth from "../../hooks/useAuth";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
@@ -128,9 +128,18 @@ const Navbar = () => {
 
             {profileOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-50">
-                <p className="px-4 py-2 text-sm text-gray-700 border-b">
-                  {user.displayName || "User"}
-                </p>
+                <Link to={"/dashboard/my-profile"}>
+                  <p className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 border-b hover:bg-accent">
+                    <span className="rounded-xl">
+                      <img
+                        src={user?.photoURL}
+                        className="w-8 h-8 rounded-full object-cover cursor-pointer ring-2 ring-blue-500 transition"
+                        alt=""
+                      />
+                    </span>
+                    <span>{user.displayName || "User"}</span>
+                  </p>
+                </Link>
 
                 <NavLink
                   to="/dashboard"
