@@ -10,7 +10,7 @@ import { NavLink } from "react-router";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
-
+  console.log(user?.photoURL);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const dropdownRef = useRef(null);
