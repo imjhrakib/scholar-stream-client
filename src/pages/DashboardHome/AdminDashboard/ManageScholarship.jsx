@@ -11,7 +11,7 @@ const ManageScholarship = () => {
   const modalRef = useRef(null);
   const axios = useAxios();
   const axiosSecure = useAxiosSecure();
-  const [update, setUpdate] = useState(false);
+
   const [selectedScholarship, setSelectedScholarship] = useState(null);
 
   // all scholarships
@@ -65,7 +65,7 @@ const ManageScholarship = () => {
       .then((res) => {
         if (res.data.modifiedCount > 0) {
           refetch();
-          setUpdate(false);
+
           setSelectedScholarship(null);
           modalRef.current.close();
         }
@@ -122,7 +122,6 @@ const ManageScholarship = () => {
                 <td className="flex flex-wrap gap-2">
                   <button
                     onClick={() => {
-                      setUpdate(true);
                       updateScholarship(scholarship._id);
                       modalRef.current.showModal();
                     }}

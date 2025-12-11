@@ -6,7 +6,6 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 const TopScholarship = () => {
   const [scholarships, setScholarships] = useState([]);
   const axiosSecure = useAxiosSecure();
-  // axiosSecure.get("/scholarships").then((res) => setScholarships(res.data));
   useEffect(() => {
     const fetchScholarships = async () => {
       try {

@@ -8,9 +8,10 @@ import {
   AiOutlineHome,
   AiOutlinePlusCircle,
 } from "react-icons/ai";
-import { FaUsers } from "react-icons/fa";
+import { FaClipboardList, FaStar, FaUsers } from "react-icons/fa";
 import useAuth from "../hooks/useAuth";
 import { VscSettings } from "react-icons/vsc";
+import { PiSquareHalfBottomLight } from "react-icons/pi";
 
 const DashboardLayout = () => {
   const { user } = useAuth();
@@ -174,6 +175,44 @@ const DashboardLayout = () => {
                   >
                     <AiOutlineBarChart size={24} className="text-rose-600" />
                     <span className="is-drawer-close:hidden">Analytics</span>
+                  </Link>
+                </li>
+              </>
+            )}
+
+            {role === "student" && (
+              <>
+                <li>
+                  <Link
+                    onClick={() => {
+                      setDrawerState(false);
+                    }}
+                    to={"/dashboard/my-application"}
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="My Applications"
+                  >
+                    {/* Home icon */}
+                    <FaClipboardList
+                      size={24}
+                      className="text-indigo-600"
+                    ></FaClipboardList>
+                    <span className="is-drawer-close:hidden">
+                      My Applications
+                    </span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    onClick={() => {
+                      setDrawerState(false);
+                    }}
+                    to={"/dashboard/my-application"}
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="My Reviews"
+                  >
+                    {/* Home icon */}
+                    <FaStar size={24} className="text-indigo-600"></FaStar>
+                    <span className="is-drawer-close:hidden">My Reviews</span>
                   </Link>
                 </li>
               </>

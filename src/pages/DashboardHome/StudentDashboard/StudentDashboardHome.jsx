@@ -1,6 +1,6 @@
 import React from "react";
 
-const UserDashboardHome = () => {
+const StudentDashboardHome = () => {  
   return (
     <div>
       <h2>Student</h2>
@@ -8,4 +8,4 @@ const UserDashboardHome = () => {
   );
 };
 
-export default UserDashboardHome;
+export default StudentDashboardHome;  

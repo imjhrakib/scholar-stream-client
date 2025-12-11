@@ -43,7 +43,7 @@ const AddScholarship = () => {
         serviceCharge: data.serviceCharge,
         deadline: data.deadline,
         postDate: data.postDate,
-        userEmail: data.userEmail,
+        instituteEmail: data.userEmail,
       };
       axiosSecure.post("/scholarships", scholarshipInfo).then((res) => {
         if (res.data.insertedId) {

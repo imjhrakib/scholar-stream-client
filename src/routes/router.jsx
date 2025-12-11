@@ -17,6 +17,8 @@ import ManageScholarship from "../pages/DashboardHome/AdminDashboard/ManageSchol
 import Analytics from "../pages/DashboardHome/AdminDashboard/Analytics";
 import MyProfile from "../pages/DashboardHome/MyProfile";
 import ScholarshipDetails from "../pages/AllScholarships/ScholarshipDetails";
+import StudentDashboardHome from "../pages/DashboardHome/StudentDashboard/StudentDashboardHome";
+import MyApplications from "../pages/DashboardHome/StudentDashboard/MyApplications";
 
 export const router = createBrowserRouter([
   {
@@ -83,6 +85,15 @@ export const router = createBrowserRouter([
       {
         path: "my-profile",
         element: <MyProfile></MyProfile>,
+      },
+      // student dashboard
+      {
+        path: "student-dashboard",
+        element: <StudentDashboardHome></StudentDashboardHome>,
+      },
+      {
+        path: "my-application",
+        element: <MyApplications></MyApplications>,
       },
     ],
   },

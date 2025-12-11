@@ -1,8 +1,8 @@
 import React from "react";
-import ModeratorDashboardHome from "./ModeratorDashboardHome";
+import ModeratorDashboardHome from "./ModeratorDashboard/ModeratorDashboardHome";
 import useRole from "../../hooks/useRole";
 import Loading from "../../components/ui/Loading";
-import UserDashboardHome from "./UserDashboardHome";
+import UserDashboardHome from "./StudentDashboard/StudentDashboardHome";
 import AdminDashboardHome from "./AdminDashboard/AdminDashboardHome";
 
 const DashboardHome = () => {
