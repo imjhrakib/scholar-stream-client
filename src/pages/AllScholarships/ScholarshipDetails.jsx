@@ -28,6 +28,7 @@ const ScholarshipDetails = () => {
   console.log(scholarship._id);
   const handleApplication = (application) => {
     application.userEmail = user?.email;
+    application.displayName = user?.displayName;
     axiosSecure.post("/applications", application).then((res) => {
       if (res.data.insertedId) {
         navigate("/dashboard/my-application");

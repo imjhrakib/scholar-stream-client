@@ -39,22 +39,18 @@ const MyApplications = () => {
   const deleteScholarship = (id) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      text: "This action cannot be undone!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonColor: "#2563eb",
+      cancelButtonColor: "#dc2626",
+      confirmButtonText: "Delete",
     }).then((result) => {
       if (result.isConfirmed) {
         axiosSecure.delete(`applications/${id}`).then((res) => {
           if (res.data.deletedCount > 0) {
             refetch();
-            Swal.fire({
-              title: "Deleted!",
-              text: "Your file has been deleted.",
-              icon: "success",
-            });
+            Swal.fire("Deleted!", "Application removed.", "success");
           }
         });
       }
@@ -71,20 +67,7 @@ const MyApplications = () => {
     let updatedData = {};
 
     for (const key in dirtyFields) {
-      if (key === "photo") {
-        const imageFile = data.photo[0];
-        if (imageFile) {
-          const formData = new FormData();
-          formData.append("image", imageFile);
-          const image_API_URL = `https://api.imgbb.com/1/upload?key=${
-            import.meta.env.VITE_image_host
-          }`;
-          const res = await axios.post(image_API_URL, formData);
-          updatedData.photo = res.data.data.url;
-        }
-      } else {
-        updatedData[key] = data[key];
-      }
+      updatedData[key] = data[key];
     }
 
     const res = await axiosSecure.patch(
@@ -100,64 +83,84 @@ const MyApplications = () => {
   };
 
   return (
-    <div>
-      <h2>My Applications :</h2>
-      <div className="overflow-x-auto">
-        <table className="table table-zebra">
+    <div className="p-6">
+      <h2 className="text-2xl font-semibold text-slate-800 mb-4">
+        My Applications
+      </h2>
+
+      <div className="overflow-x-auto rounded-xl shadow border border-slate-200 bg-white">
+        <table className="table w-full">
           <thead>
-            <tr className="bg-gray-100">
-              <th className="text-center">SL No.</th>
-              <th className="text-center">University Name</th>
+            <tr className="bg-slate-100 text-slate-700 text-sm">
+              <th className="text-center py-3">SL</th>
+              <th className="text-center">University</th>
               <th className="text-center">City</th>
               <th className="text-center">Feedback</th>
-              <th className="text-center">Subject Category</th>
-              <th className="text-center">Application Fees</th>
+              <th className="text-center">Subject</th>
+              <th className="text-center">Fees</th>
               <th className="text-center">Status</th>
               <th className="text-center">Actions</th>
             </tr>
           </thead>
-          <tbody>
-            {applications.map((application, index) => (
-              <tr key={application._id}>
-                <td className="text-center">{index + 1}</td>
-                <td className="text-center">{application.universityName}</td>
-                <td className="text-center">{application.city}</td>
-                <td className="text-center">Feedback</td>
-                <td className="text-center">{application.subjectCategory}</td>
-                <td className="text-center">{application.applicationFees}</td>
-                <td className="text-center">{application.status}</td>
-                <td className="flex flex-wrap gap-2">
+
+          <tbody className="text-slate-700">
+            {applications.map((app, index) => (
+              <tr key={app._id} className="hover:bg-slate-50 transition">
+                <td className="text-center py-3 font-medium">{index + 1}</td>
+                <td className="text-center">{app.universityName}</td>
+                <td className="text-center">{app.city}</td>
+                <td className="text-center text-slate-500">Feedback</td>
+                <td className="text-center">{app.subjectCategory}</td>
+                <td className="text-center">${app.applicationFees}</td>
+
+                <td className="text-center">
+                  <span
+                    className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                      app.status === "pending"
+                        ? "bg-yellow-100 text-yellow-700"
+                        : app.status === "completed"
+                        ? "bg-green-100 text-green-700"
+                        : "bg-slate-100 text-slate-700"
+                    }`}
+                  >
+                    {app.status}
+                  </span>
+                </td>
+
+                <td className="flex justify-center flex-wrap gap-2 py-2">
                   <button
-                    onClick={() => handleDetails(application._id)}
-                    className="btn btn-sm bg-blue-500 text-white hover:bg-blue-600"
+                    onClick={() => handleDetails(app._id)}
+                    className="btn btn-sm bg-indigo-500 text-white hover:bg-indigo-600"
                   >
                     Details
                   </button>
 
-                  {application.status === "pending" && (
+                  {app.status === "pending" && (
                     <>
                       <button
-                        onClick={() => handleEdit(application._id)}
-                        className="btn btn-sm bg-yellow-400 text-black hover:bg-yellow-500"
+                        onClick={() => handleEdit(app._id)}
+                        className="btn btn-sm bg-amber-400 hover:bg-amber-500 text-black"
                       >
                         Edit
                       </button>
-                      {application.paymentStatus === "unpaid" && (
-                        <button className="btn btn-sm bg-green-500 text-white hover:bg-green-600">
+
+                      {app.paymentStatus === "unpaid" && (
+                        <button className="btn btn-sm bg-emerald-500 text-white hover:bg-emerald-600">
                           Pay
                         </button>
                       )}
+
                       <button
-                        onClick={() => deleteScholarship(application._id)}
-                        className="btn btn-sm bg-red-500 text-white hover:bg-red-600"
+                        onClick={() => deleteScholarship(app._id)}
+                        className="btn btn-sm bg-red-500 hover:bg-red-600 text-white"
                       >
                         Delete
                       </button>
                     </>
                   )}
 
-                  {application.status === "completed" && (
-                    <button className="btn btn-sm bg-purple-500 text-white hover:bg-purple-600">
+                  {app.status === "completed" && (
+                    <button className="btn btn-sm bg-purple-500 hover:bg-purple-600 text-white">
                       Add Review
                     </button>
                   )}
@@ -168,43 +171,57 @@ const MyApplications = () => {
         </table>
       </div>
 
-      {/* Details Modal */}
+      {/* DETAILS MODAL */}
       <dialog id="details_modal" className="modal">
-        <div className="modal-box w-11/12 max-w-5xl">
+        <div className="modal-box max-w-4xl">
           {selectedApplication && (
-            <table className="table table-zebra w-full">
-              <thead>
-                <tr className="bg-gray-100">
-                  <th>SL No.</th>
-                  <th>Scholarship Name</th>
-                  <th>University Name</th>
-                  <th>City</th>
-                  <th>Subject Category</th>
-                  <th>Application Fees</th>
-                  <th>Status</th>
-                  <th>Payment Status</th>
-                  <th>Created At</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>{selectedApplication.scholarshipName}</td>
-                  <td>{selectedApplication.universityName}</td>
-                  <td>{selectedApplication.city}</td>
-                  <td>{selectedApplication.subjectCategory}</td>
-                  <td>${selectedApplication.applicationFees}</td>
-                  <td>{selectedApplication.status}</td>
-                  <td>{selectedApplication.paymentStatus}</td>
-                  <td>
-                    {new Date(selectedApplication.createdAt).toLocaleString(
-                      "en-US",
-                      { dateStyle: "medium", timeStyle: "short" }
-                    )}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <div className="space-y-3">
+              <h3 className="text-xl font-semibold text-slate-800 mb-2">
+                Application Details
+              </h3>
+
+              <table className="table w-full">
+                <tbody className="text-slate-700">
+                  <tr>
+                    <td className="font-semibold">Scholarship</td>
+                    <td>{selectedApplication.scholarshipName}</td>
+                  </tr>
+                  <tr>
+                    <td className="font-semibold">University</td>
+                    <td>{selectedApplication.universityName}</td>
+                  </tr>
+                  <tr>
+                    <td className="font-semibold">City</td>
+                    <td>{selectedApplication.city}</td>
+                  </tr>
+                  <tr>
+                    <td className="font-semibold">Subject</td>
+                    <td>{selectedApplication.subjectCategory}</td>
+                  </tr>
+                  <tr>
+                    <td className="font-semibold">Application Fees</td>
+                    <td>${selectedApplication.applicationFees}</td>
+                  </tr>
+                  <tr>
+                    <td className="font-semibold">Status</td>
+                    <td>{selectedApplication.status}</td>
+                  </tr>
+                  <tr>
+                    <td className="font-semibold">Payment</td>
+                    <td>{selectedApplication.paymentStatus}</td>
+                  </tr>
+                  <tr>
+                    <td className="font-semibold">Created At</td>
+                    <td>
+                      {new Date(selectedApplication.createdAt).toLocaleString(
+                        "en-US",
+                        { dateStyle: "medium", timeStyle: "short" }
+                      )}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
         <form method="dialog" className="modal-backdrop">
@@ -212,19 +229,20 @@ const MyApplications = () => {
         </form>
       </dialog>
 
-      {/* Edit Modal */}
+      {/* EDIT MODAL */}
       <dialog ref={modalRef} className="modal">
-        <div className="modal-box w-11/12 max-w-5xl">
-          <h2 className="text-2xl font-bold mb-4 text-center">
-            Update Application
+        <div className="modal-box max-w-4xl">
+          <h2 className="text-xl font-semibold text-center mb-4 text-slate-800">
+            Edit Application
           </h2>
+
           {editApp && (
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className="grid grid-cols-1 md:grid-cols-2 gap-6"
+              className="grid grid-cols-1 md:grid-cols-2 gap-5"
             >
               <div>
-                <label className="label font-medium">Scholarship Name</label>
+                <label className="label font-medium">Scholarship</label>
                 <input
                   type="text"
                   {...register("scholarshipName")}
@@ -234,7 +252,7 @@ const MyApplications = () => {
               </div>
 
               <div>
-                <label className="label font-medium">University Name</label>
+                <label className="label font-medium">University</label>
                 <input
                   type="text"
                   {...register("universityName")}

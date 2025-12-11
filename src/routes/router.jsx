@@ -19,6 +19,9 @@ import MyProfile from "../pages/DashboardHome/MyProfile";
 import ScholarshipDetails from "../pages/AllScholarships/ScholarshipDetails";
 import StudentDashboardHome from "../pages/DashboardHome/StudentDashboard/StudentDashboardHome";
 import MyApplications from "../pages/DashboardHome/StudentDashboard/MyApplications";
+import MyReview from "../pages/DashboardHome/StudentDashboard/MyReview";
+import ManageAppliedApplication from "../pages/DashboardHome/ModeratorDashboard/ManageAppliedApplication";
+import ManageReviews from "../pages/DashboardHome/ModeratorDashboard/ManageReviews";
 
 export const router = createBrowserRouter([
   {
@@ -86,6 +89,14 @@ export const router = createBrowserRouter([
         path: "my-profile",
         element: <MyProfile></MyProfile>,
       },
+      {
+        path: "manage-application",
+        element: <ManageAppliedApplication></ManageAppliedApplication>,
+      },
+      {
+        path: "manage-reviews",
+        element: <ManageReviews></ManageReviews>,
+      },
       // student dashboard
       {
         path: "student-dashboard",
@@ -94,6 +105,10 @@ export const router = createBrowserRouter([
       {
         path: "my-application",
         element: <MyApplications></MyApplications>,
+      },
+      {
+        path: "my-reviews",
+        element: <MyReview></MyReview>,
       },
     ],
   },

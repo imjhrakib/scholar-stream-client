@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, Outlet } from "react-router";
 import useRole from "../hooks/useRole";
 import {
+  AiOutlineAppstore,
   AiOutlineBarChart,
   AiOutlineBook,
   AiOutlineDashboard,
@@ -12,6 +13,7 @@ import { FaClipboardList, FaStar, FaUsers } from "react-icons/fa";
 import useAuth from "../hooks/useAuth";
 import { VscSettings } from "react-icons/vsc";
 import { PiSquareHalfBottomLight } from "react-icons/pi";
+import { MdRateReview } from "react-icons/md";
 
 const DashboardLayout = () => {
   const { user } = useAuth();
@@ -206,13 +208,55 @@ const DashboardLayout = () => {
                     onClick={() => {
                       setDrawerState(false);
                     }}
-                    to={"/dashboard/my-application"}
+                    to={"/dashboard/my-reviews"}
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                     data-tip="My Reviews"
                   >
                     {/* Home icon */}
                     <FaStar size={24} className="text-indigo-600"></FaStar>
                     <span className="is-drawer-close:hidden">My Reviews</span>
+                  </Link>
+                </li>
+              </>
+            )}
+            {role === "moderator" && (
+              <>
+                <li>
+                  <Link
+                    onClick={() => {
+                      setDrawerState(false);
+                    }}
+                    to={"/dashboard/manage-application"}
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Manage Application"
+                  >
+                    {/* Home icon */}
+                    <AiOutlineAppstore
+                      size={24}
+                      className="text-indigo-600"
+                    ></AiOutlineAppstore>
+                    <span className="is-drawer-close:hidden">
+                      Manage Application
+                    </span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    onClick={() => {
+                      setDrawerState(false);
+                    }}
+                    to={"/dashboard/manage-reviews"}
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Manage Reviews"
+                  >
+                    {/* Manage Review icon */}
+                    <MdRateReview
+                      size={24}
+                      className="text-indigo-600"
+                    ></MdRateReview>
+                    <span className="is-drawer-close:hidden">
+                      Manage Reviews
+                    </span>
                   </Link>
                 </li>
               </>
