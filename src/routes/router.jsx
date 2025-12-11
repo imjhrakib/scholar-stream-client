@@ -22,6 +22,8 @@ import MyApplications from "../pages/DashboardHome/StudentDashboard/MyApplicatio
 import MyReview from "../pages/DashboardHome/StudentDashboard/MyReview";
 import ManageAppliedApplication from "../pages/DashboardHome/ModeratorDashboard/ManageAppliedApplication";
 import ManageReviews from "../pages/DashboardHome/ModeratorDashboard/ManageReviews";
+import Payment from "../pages/Payments/PaymentSuccess";
+import PaymentSuccess from "../pages/Payments/PaymentSuccess";
 
 export const router = createBrowserRouter([
   {
@@ -106,12 +108,22 @@ export const router = createBrowserRouter([
         path: "my-application",
         element: <MyApplications></MyApplications>,
       },
+      // payments
+      {
+        path: "payments",
+        element: <Payment></Payment>,
+      },
+      {
+        path: "payment-success",
+        element: <PaymentSuccess></PaymentSuccess>,
+      },
       {
         path: "my-reviews",
         element: <MyReview></MyReview>,
       },
     ],
   },
+
   {
     path: "*",
     Component: Error404,

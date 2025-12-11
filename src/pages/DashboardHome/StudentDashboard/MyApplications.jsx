@@ -36,6 +36,21 @@ const MyApplications = () => {
     });
   };
 
+  const handlePay = async (application) => {
+    const paymentInfo = {
+      applicationId: application._id,
+      applicationName: application.scholarshipName,
+      cost: application.applicationFees,
+      userEmail: application.userEmail,
+    };
+    const res = await axiosSecure.post(
+      "/payment-checkout-session",
+      paymentInfo
+    );
+    console.log(res.data);
+    window.location.href = res.data.url;
+  };
+
   const deleteScholarship = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -109,7 +124,7 @@ const MyApplications = () => {
                 <td className="text-center py-3 font-medium">{index + 1}</td>
                 <td className="text-center">{app.universityName}</td>
                 <td className="text-center">{app.city}</td>
-                <td className="text-center text-slate-500">Feedback</td>
+                <td className="text-center text-slate-500">{app.feedback}</td>
                 <td className="text-center">{app.subjectCategory}</td>
                 <td className="text-center">${app.applicationFees}</td>
 
@@ -145,7 +160,10 @@ const MyApplications = () => {
                       </button>
 
                       {app.paymentStatus === "unpaid" && (
-                        <button className="btn btn-sm bg-emerald-500 text-white hover:bg-emerald-600">
+                        <button
+                          onClick={() => handlePay(app)}
+                          className="btn btn-sm bg-emerald-500 text-white hover:bg-emerald-600"
+                        >
                           Pay
                         </button>
                       )}
