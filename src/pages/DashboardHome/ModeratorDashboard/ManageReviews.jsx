@@ -1,30 +1,43 @@
 import React from "react";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
+import Swal from "sweetalert2";
 
 const ManageReviews = () => {
-  const reviews = [
-    {
-      _id: "676a01f5b8a12345cd001111",
-      applicationId: "6769ff22b8a12345cd009999",
-      userEmail: "student01@example.com",
-      rating: 4.5,
-      reviewComment:
-        "The application process was smooth and the university responded quickly. Recommended!",
-      scholarshipName: "Global Excellence Scholarship",
-      universityName: "Berlin Institute of Technology",
-      createdAt: "2025-01-02T10:20:30.000Z",
+  const axiosSecure = useAxiosSecure();
+
+  const { refetch, data: reviews = [] } = useQuery({
+    queryKey: ["review"],
+    queryFn: async () => {
+      const result = await axiosSecure.get("/reviews");
+      return result.data;
     },
-    {
-      _id: "676a0209b8a12345cd001112",
-      applicationId: "6769ff22b8a12345cd009998",
-      userEmail: "student02@example.com",
-      rating: 3.8,
-      reviewComment:
-        "Good scholarship option but the documentation requirements were a bit heavy.",
-      scholarshipName: "International Merit Scholarship",
-      universityName: "University of Toronto",
-      createdAt: "2025-01-03T14:45:12.000Z",
-    },
-  ];
+  });
+
+  const handleReviewDelete = async (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure.delete(`/reviews/${id}`).then((res) => {
+          if (res.data.deletedCount > 0) {
+            refetch();
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success",
+            });
+          }
+        });
+      }
+    });
+  };
 
   return (
     <div>
@@ -70,11 +83,11 @@ const ManageReviews = () => {
                     ⭐ {review.rating}
                   </td>
 
-                  <td className="flex justify-center gap-2 py-3">
-                    <button className="btn btn-sm bg-amber-400 border-none text-black hover:bg-amber-500">
-                      Edit
-                    </button>
-                    <button className="btn btn-sm bg-red-500 border-none text-white hover:bg-red-600">
+                  <td className="text-center py-3">
+                    <button
+                      onClick={() => handleReviewDelete(review._id)}
+                      className="btn btn-sm bg-red-500 border-none text-white hover:bg-red-600"
+                    >
                       Delete
                     </button>
                   </td>

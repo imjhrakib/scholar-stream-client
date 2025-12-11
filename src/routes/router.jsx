@@ -24,6 +24,7 @@ import ManageAppliedApplication from "../pages/DashboardHome/ModeratorDashboard/
 import ManageReviews from "../pages/DashboardHome/ModeratorDashboard/ManageReviews";
 import Payment from "../pages/Payments/PaymentSuccess";
 import PaymentSuccess from "../pages/Payments/PaymentSuccess";
+import PaymentCancelled from "../pages/Payments/PaymentCancelled";
 
 export const router = createBrowserRouter([
   {
@@ -116,6 +117,10 @@ export const router = createBrowserRouter([
       {
         path: "payment-success",
         element: <PaymentSuccess></PaymentSuccess>,
+      },
+      {
+        path: "payment-cancelled",
+        element: <PaymentCancelled></PaymentCancelled>,
       },
       {
         path: "my-reviews",

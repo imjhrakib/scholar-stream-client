@@ -12,6 +12,8 @@ const MyApplications = () => {
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [editApp, setEditApp] = useState(null);
   const modalRef = useRef();
+  const [comment, setComment] = useState("");
+  const [star, setStar] = useState("");
 
   const { data: applications = [], refetch } = useQuery({
     queryKey: ["applications", user?.email],
@@ -47,10 +49,32 @@ const MyApplications = () => {
       "/payment-checkout-session",
       paymentInfo
     );
-    console.log(res.data);
+
     window.location.href = res.data.url;
   };
 
+  const handleReview = async (application) => {
+    const reviews = {
+      applicationId: application._id,
+      scholarshipName: application.scholarshipName,
+      universityName: application.universityName,
+      rating: star,
+      comment: comment,
+    };
+    const review = await axiosSecure
+      .post(`/reviews/${application._id}`, reviews)
+      .then((res) => {
+        if (res.data.insertedId) {
+          refetch();
+          modalRef.current.close();
+          Swal.fire("Review added");
+        }
+        if (res.data.message) {
+          modalRef.current.close();
+          Swal.fire("Review already Exist");
+        }
+      });
+  };
   const deleteScholarship = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -62,7 +86,7 @@ const MyApplications = () => {
       confirmButtonText: "Delete",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosSecure.delete(`applications/${id}`).then((res) => {
+        axiosSecure.delete(`application/${id}`).then((res) => {
           if (res.data.deletedCount > 0) {
             refetch();
             Swal.fire("Deleted!", "Application removed.", "success");
@@ -178,7 +202,13 @@ const MyApplications = () => {
                   )}
 
                   {app.status === "completed" && (
-                    <button className="btn btn-sm bg-purple-500 hover:bg-purple-600 text-white">
+                    <button
+                      onClick={() => {
+                        document.getElementById("my_modal_5").showModal();
+                        setSelectedApplication(app);
+                      }}
+                      className="btn btn-sm bg-purple-500 hover:bg-purple-600 text-white"
+                    >
                       Add Review
                     </button>
                   )}
@@ -306,6 +336,47 @@ const MyApplications = () => {
               </div>
             </form>
           )}
+        </div>
+      </dialog>
+
+      {/* Open the modal using document.getElementById('ID').showModal() method */}
+      <dialog ref={modalRef} id="my_modal_5" className="modal">
+        <div className="modal-box">
+          <h2 className="text-xl font-semibold mb-4">Add a Review</h2>
+
+          {/* Star Rating */}
+          <label className="block mb-2 font-medium">Rating</label>
+          <select
+            className="border border-gray-300 rounded px-3 py-2 w-full mb-4 bg-white"
+            value={star}
+            onChange={(e) => setStar(e.target.value)}
+          >
+            <option value="">Select Rating</option>
+            <option value="1">⭐ 1</option>
+            <option value="2">⭐ 2</option>
+            <option value="3">⭐ 3</option>
+            <option value="4">⭐ 4</option>
+            <option value="5">⭐ 5</option>
+          </select>
+
+          {/* Comment */}
+          <label className="block mb-2 font-medium">Comment</label>
+          <textarea
+            placeholder="Share your thoughts..."
+            className="textarea textarea-accent w-full h-24"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          ></textarea>
+
+          {/* Submit Button */}
+          <div className="modal-action">
+            <button
+              className="btn btn-primary"
+              onClick={() => handleReview(selectedApplication)}
+            >
+              Submit
+            </button>
+          </div>
         </div>
       </dialog>
     </div>

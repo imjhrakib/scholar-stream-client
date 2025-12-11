@@ -15,7 +15,6 @@ const ScholarshipDetails = () => {
       try {
         const res = await axiosSecure.get(`/scholarship/${id}`);
         setScholarship(res.data);
-        console.log(res.data);
       } catch (err) {
         console.error(err);
       }
@@ -25,10 +24,18 @@ const ScholarshipDetails = () => {
   }, [axiosSecure]);
 
   if (!scholarship) return <Loading />;
-  console.log(scholarship._id);
-  const handleApplication = (application) => {
-    application.userEmail = user?.email;
-    application.displayName = user?.displayName;
+
+  const handleApplication = () => {
+    const application = {
+      scholarshipId: scholarship._id,
+      scholarshipName: scholarship.scholarshipName,
+      universityName: scholarship.universityName,
+      subjectCategory: scholarship.subjectCategory,
+      applicationFees: scholarship.applicationFees,
+      city: scholarship.city,
+      userEmail: user?.email,
+      displayName: user?.displayName,
+    };
     axiosSecure.post("/applications", application).then((res) => {
       if (res.data.insertedId) {
         navigate("/dashboard/my-application");
@@ -85,7 +92,7 @@ const ScholarshipDetails = () => {
           </p>
 
           <button
-            onClick={() => handleApplication(scholarship)}
+            onClick={handleApplication}
             className="inline-block mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
           >
             Apply Now

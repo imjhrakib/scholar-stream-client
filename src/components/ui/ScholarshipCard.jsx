@@ -4,7 +4,6 @@ import { FaUniversity } from "react-icons/fa";
 import { Link } from "react-router";
 
 const ScholarshipCard = ({ scholarship }) => {
-  console.log(scholarship);
   return (
     <motion.div
       className="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl border border-gray-100 transition-all duration-300 flex flex-col justify-between hover:-translate-y-1"

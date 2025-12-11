@@ -12,7 +12,7 @@ const PaymentSuccess = () => {
     transactionId: "",
     scholarshipName: "",
     universityName: "",
-    amount: 0,
+    applicationFees: 0,
   });
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const PaymentSuccess = () => {
           transactionId: data.transactionId,
           scholarshipName: data.scholarshipName,
           universityName: data.universityName,
-          amount: data.amount,
+          applicationFees: data.applicationFees,
         });
       })
       .catch((err) => {
@@ -62,7 +62,7 @@ const PaymentSuccess = () => {
 
         <p className="text-gray-700 mt-1">
           <span className="font-semibold">Amount Paid:</span> $
-          {paymentInfo.amount}
+          {paymentInfo.applicationFees}
         </p>
 
         <p className="text-gray-700 mt-3">

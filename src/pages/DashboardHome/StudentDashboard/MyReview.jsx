@@ -1,31 +1,63 @@
-import React from "react";
+import React, { useRef, useState } from "react";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
+import Swal from "sweetalert2";
 
 const MyReview = () => {
-  const reviews = [
-    {
-      _id: "676a01f5b8a12345cd001111",
-      applicationId: "6769ff22b8a12345cd009999",
-      userEmail: "student01@example.com",
-      rating: 4.5,
-      reviewComment:
-        "The application process was smooth and the university responded quickly. Recommended!",
-      scholarshipName: "Global Excellence Scholarship",
-      universityName: "Berlin Institute of Technology",
-      createdAt: "2025-01-02T10:20:30.000Z",
+  const axiosSecure = useAxiosSecure();
+  const [star, setStar] = useState("");
+  const [comment, setComment] = useState("");
+  const [selectedReview, setSelectedReview] = useState(null);
+  const modalRef = useRef();
+  const { refetch, data: reviews = [] } = useQuery({
+    queryKey: ["review"],
+    queryFn: async () => {
+      const result = await axiosSecure.get(`/reviews`);
+      return result.data;
     },
-    {
-      _id: "676a0209b8a12345cd001112",
-      applicationId: "6769ff22b8a12345cd009998",
-      userEmail: "student02@example.com",
-      rating: 3.8,
-      reviewComment:
-        "Good scholarship option but the documentation requirements were a bit heavy.",
-      scholarshipName: "International Merit Scholarship",
-      universityName: "University of Toronto",
-      createdAt: "2025-01-03T14:45:12.000Z",
-    },
-  ];
-
+  });
+  const handleEditReview = async (id) => {
+    const updatedReviews = {
+      rating: star,
+      comment: comment,
+    };
+    const review = await axiosSecure
+      .patch(`/review/${id}/edit`, updatedReviews)
+      .then((res) => {
+        if (res.data.modifiedCount) {
+          refetch();
+          setStar("");
+          setComment("");
+          setSelectedReview(null);
+          document.getElementById("my_modal_5").close();
+          Swal.fire("Review updated");
+        }
+      });
+  };
+  const handleReviewDelete = async (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure.delete(`/reviews/${id}`).then((res) => {
+          if (res.data.deletedCount > 0) {
+            refetch();
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success",
+            });
+          }
+        });
+      }
+    });
+  };
   return (
     <div className="p-6">
       <h2 className="text-2xl font-semibold mb-4 text-slate-800">My Reviews</h2>
@@ -52,9 +84,7 @@ const MyReview = () => {
                   {review.scholarshipName}
                 </td>
                 <td className="text-center">{review.universityName}</td>
-                <td className="text-center text-slate-600">
-                  {review.reviewComment}
-                </td>
+                <td className="text-center text-slate-600">{review.comment}</td>
 
                 <td className="text-center">
                   {new Date(review.createdAt).toLocaleString("en-US", {
@@ -68,10 +98,21 @@ const MyReview = () => {
                 </td>
 
                 <td className="flex justify-center gap-2 py-3">
-                  <button className="btn btn-sm bg-amber-400 border-none text-black hover:bg-amber-500">
+                  <button
+                    onClick={() => {
+                      setSelectedReview(review._id);
+                      setStar(review.rating);
+                      setComment(review.comment);
+                      document.getElementById("my_modal_5").showModal();
+                    }}
+                    className="btn btn-sm bg-amber-400 border-none text-black hover:bg-amber-500"
+                  >
                     Edit
                   </button>
-                  <button className="btn btn-sm bg-red-500 border-none text-white hover:bg-red-600">
+                  <button
+                    onClick={() => handleReviewDelete(review._id)}
+                    className="btn btn-sm bg-red-500 border-none text-white hover:bg-red-600"
+                  >
                     Delete
                   </button>
                 </td>
@@ -80,6 +121,52 @@ const MyReview = () => {
           </tbody>
         </table>
       </div>
+
+      <dialog id="my_modal_5" className="modal">
+        <div className="modal-box">
+          <h2 className="text-xl font-semibold mb-4">Add a Review</h2>
+
+          {/* Star Rating */}
+          <label className="block mb-2 font-medium">Rating</label>
+          <select
+            className="border border-gray-300 rounded px-3 py-2 w-full mb-4 bg-white"
+            value={star}
+            onChange={(e) => setStar(e.target.value)}
+          >
+            <option value="">Select Rating</option>
+            <option value="1">⭐ 1</option>
+            <option value="2">⭐ 2</option>
+            <option value="3">⭐ 3</option>
+            <option value="4">⭐ 4</option>
+            <option value="5">⭐ 5</option>
+          </select>
+
+          {/* Comment */}
+          <label className="block mb-2 font-medium">Comment</label>
+          <textarea
+            placeholder="Share your thoughts..."
+            className="textarea textarea-accent w-full h-24"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          ></textarea>
+
+          {/* Buttons */}
+          <div className="modal-action">
+            {/* IMPORTANT: remove method='dialog' or it will auto-close */}
+            <button
+              className="btn btn-primary"
+              onClick={() => handleEditReview(selectedReview)}
+            >
+              Submit
+            </button>
+
+            {/* Close Modal Button */}
+            <form method="dialog">
+              <button className="btn">Cancel</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
     </div>
   );
 };
