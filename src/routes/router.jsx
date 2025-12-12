@@ -25,6 +25,7 @@ import ManageReviews from "../pages/DashboardHome/ModeratorDashboard/ManageRevie
 import Payment from "../pages/Payments/PaymentSuccess";
 import PaymentSuccess from "../pages/Payments/PaymentSuccess";
 import PaymentCancelled from "../pages/Payments/PaymentCancelled";
+import ModeratorRoute from "./ModeratorRoute";
 
 export const router = createBrowserRouter([
   {
@@ -37,11 +38,19 @@ export const router = createBrowserRouter([
       },
       {
         path: "scholarships",
-        Component: AllScholarships,
+        element: (
+          <PrivateRoute>
+            <AllScholarships></AllScholarships>
+          </PrivateRoute>
+        ),
       },
       {
         path: "scholarship/:id",
-        element: <ScholarshipDetails></ScholarshipDetails>,
+        element: (
+          <PrivateRoute>
+            <ScholarshipDetails></ScholarshipDetails>
+          </PrivateRoute>
+        ),
       },
     ],
   },
@@ -70,35 +79,60 @@ export const router = createBrowserRouter([
       // admin dashboard
       {
         index: true,
-        Component: DashboardHome,
+        element: <DashboardHome></DashboardHome>,
       },
       {
         path: "add-scholarship",
-        element: <AddScholarship></AddScholarship>,
+        element: (
+          <AdminRoute>
+            <AddScholarship></AddScholarship>
+          </AdminRoute>
+        ),
       },
       {
         path: "manage-scholarship",
-        element: <ManageScholarship></ManageScholarship>,
+        element: (
+          <AdminRoute>
+            <ManageScholarship></ManageScholarship>
+          </AdminRoute>
+        ),
       },
       {
         path: "manage-users",
-        element: <ManageUser></ManageUser>,
+        element: (
+          <AdminRoute>
+            <ManageUser></ManageUser>
+          </AdminRoute>
+        ),
       },
       {
         path: "analytics",
-        element: <Analytics></Analytics>,
+        element: (
+          <AdminRoute>
+            <Analytics></Analytics>
+          </AdminRoute>
+        ),
       },
       {
         path: "my-profile",
         element: <MyProfile></MyProfile>,
       },
+      //  moderator dashboard
       {
         path: "manage-application",
-        element: <ManageAppliedApplication></ManageAppliedApplication>,
+        element: (
+          <ModeratorRoute>
+            <ManageAppliedApplication></ManageAppliedApplication>
+          </ModeratorRoute>
+        ),
       },
       {
         path: "manage-reviews",
-        element: <ManageReviews></ManageReviews>,
+        element: (
+          <ModeratorRoute>
+            <ManageReviews></ManageReviews>
+          </ModeratorRoute>
+        ),
       },
       // student dashboard
       {

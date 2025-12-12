@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import SocialLogin from "../SocialLogin/SocialLogin";
 import useAuth from "../../../hooks/useAuth";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const location = useLocation();
@@ -13,14 +14,23 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { signInUser } = useAuth();
+  const { signInUser, user } = useAuth();
 
   const handleLogin = (data) => {
     signInUser(data.email, data.password)
       .then((result) => {
         navigate(location?.state || "/");
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: `Welcome to Our webSite`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => {
+        Swal.fire(error.message);
+      });
   };
   return (
     <div className="card bg-base-100 w-full mx-auto max-w-sm shrink-0 shadow-2xl">

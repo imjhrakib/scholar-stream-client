@@ -5,6 +5,10 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 const PaymentCancelled = () => {
   const [searchParams] = useSearchParams();
   const sessionId = searchParams.get("session_id");
+  console.log(sessionId);
+  const [universityName, setUniversityName] = useState("");
+  const [deadline, setDeadline] = useState("");
+  const [applicationFees, setApplicationFees] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [scholarshipName, setScholarshipName] = useState("");
 
@@ -17,8 +21,10 @@ const PaymentCancelled = () => {
     axiosSecure
       .get(`/payment-cancelled?session_id=${sessionId}`)
       .then((res) => {
-        // Assuming your backend returns { scholarshipName, errorMessage }
         setScholarshipName(res.data.scholarshipName || "");
+        setUniversityName(res.data.universityName || "");
+        setDeadline(res.data.deadline || "");
+        setApplicationFees(res.data.applicationFees || "");
         setErrorMsg(res.data.errorMessage || "Payment was not completed.");
       })
       .catch((err) => {
@@ -38,10 +44,31 @@ const PaymentCancelled = () => {
       {scholarshipName && (
         <div className="text-left bg-gray-50 p-5 rounded-lg border mb-6">
           <h2 className="text-xl font-semibold mb-3">Scholarship Details</h2>
-          <p className="text-gray-700">
+
+          <p className="text-gray-700 mb-2">
             <span className="font-semibold">Scholarship Name:</span>{" "}
             {scholarshipName}
           </p>
+
+          {universityName && (
+            <p className="text-gray-700 mb-2">
+              <span className="font-semibold">University:</span>{" "}
+              {universityName}
+            </p>
+          )}
+
+          {deadline && (
+            <p className="text-gray-700 mb-2">
+              <span className="font-semibold">Deadline:</span> {deadline}
+            </p>
+          )}
+
+          {applicationFees && (
+            <p className="text-gray-700 mb-2">
+              <span className="font-semibold">Application Fee:</span> $
+              {applicationFees}
+            </p>
+          )}
         </div>
       )}
 

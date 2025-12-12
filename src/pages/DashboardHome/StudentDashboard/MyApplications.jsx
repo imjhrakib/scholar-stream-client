@@ -43,8 +43,10 @@ const MyApplications = () => {
     const paymentInfo = {
       applicationId: application._id,
       applicationName: application.scholarshipName,
-      cost: application.applicationFees,
+      deadline: application.deadline,
+      cost: application.applicationFees || 0,
       userEmail: application.userEmail,
+      universityName: application.universityName,
     };
     const res = await axiosSecure.post(
       "/payment-checkout-session",
@@ -57,7 +59,9 @@ const MyApplications = () => {
   const handleReview = async (application) => {
     const reviews = {
       applicationId: application._id,
+      scholarshipId: application.scholarshipId,
       scholarshipName: application.scholarshipName,
+      photo: user?.photoURL,
       universityName: application.universityName,
       userName: user?.displayName,
       userEmail: user?.email,

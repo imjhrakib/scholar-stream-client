@@ -22,7 +22,7 @@ const ManageAppliedApplication = () => {
       return result.data;
     },
   });
-  console.log(selectedApplication);
+
   const handleDetails = (id) => {
     axiosSecure.get(`/application/${id}`).then((res) => {
       setSelectedApplication(res.data);
@@ -39,7 +39,7 @@ const ManageAppliedApplication = () => {
           setFeedback("");
           document.getElementById("my_modal_1").close();
           refetch();
-          Swal.fire("Sent!", "Feedback has been sent.", "success");
+          Swal.fire("Feedback has been sent been successfully");
         }
       });
   };
@@ -62,7 +62,7 @@ const ManageAppliedApplication = () => {
       confirmButtonText: "Delete",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosSecure.delete(`applications/${id}`).then((res) => {
+        axiosSecure.delete(`application/${id}`).then((res) => {
           if (res.data.deletedCount > 0) {
             refetch();
             Swal.fire("Deleted!", "Application removed.", "success");

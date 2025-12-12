@@ -2,8 +2,10 @@ import React, { useRef, useState } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
+import useAuth from "../../../hooks/useAuth";
 
 const MyReview = () => {
+  const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const [star, setStar] = useState("");
   const [comment, setComment] = useState("");
@@ -12,7 +14,7 @@ const MyReview = () => {
   const { refetch, data: reviews = [] } = useQuery({
     queryKey: ["review"],
     queryFn: async () => {
-      const result = await axiosSecure.get(`/reviews`);
+      const result = await axiosSecure.get(`/reviews/${user?.email}`);
       return result.data;
     },
   });

@@ -5,6 +5,7 @@ import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure.jsx";
 import SocialLogin from "../SocialLogin/SocialLogin.jsx";
 import useAxios from "../../../hooks/useAxios.jsx";
+import Swal from "sweetalert2";
 
 const Register = () => {
   const location = useLocation();
@@ -53,6 +54,13 @@ const Register = () => {
           .catch((error) => console.log(error.message));
       });
       navigate(location?.state || "/");
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: `Welcome to Our webSite`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
     });
   };
   return (

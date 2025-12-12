@@ -31,7 +31,7 @@ const AddScholarship = () => {
       const scholarshipInfo = {
         scholarshipName: data.scholarshipName,
         universityName: data.universityName,
-        photoURL: data.photoURL,
+        photo: data.photoURL,
         country: data.country,
         city: data.city,
         worldRank: data.worldRank,
@@ -44,6 +44,7 @@ const AddScholarship = () => {
         deadline: data.deadline,
         postDate: data.postDate,
         instituteEmail: data.userEmail,
+        scholarshipDescription: data.description,
       };
       axiosSecure.post("/scholarships", scholarshipInfo).then((res) => {
         if (res.data.insertedId) {
@@ -233,6 +234,19 @@ const AddScholarship = () => {
             className="input input-bordered w-full"
             placeholder="Enter user email"
           />
+        </div>
+        {/* Description  */}
+        <div>
+          <label className="label font-medium">Description</label>
+          <textarea
+            {...register("description", { required: true })}
+            className="textarea textarea-bordered w-full"
+            placeholder="Enter description"
+            rows={4}
+          />
+          {errors.description && (
+            <p className="text-red-500 text-sm">This field is required</p>
+          )}
         </div>
 
         <div className="md:col-span-2 mt-4">
