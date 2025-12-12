@@ -52,9 +52,7 @@ const DashboardLayout = () => {
           </label>
 
           <div className="px-4 text-lg font-semibold">
-            {role === "admin" && <span>ScholarStream Admin Panel</span>}
-            {role === "moderator" && <span>ScholarStream Moderator Panel</span>}
-            {role === "user" && <span>ScholarStream User Panel</span>}
+            <span>ScholarStream Control Panel</span>
           </div>
         </nav>
         {/* Page content here */}

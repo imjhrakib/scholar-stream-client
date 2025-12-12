@@ -14,7 +14,7 @@ import AdminDashboardHome from "../pages/DashboardHome/AdminDashboard/AdminDashb
 import ManageUser from "../pages/DashboardHome/AdminDashboard/ManageUser";
 import AddScholarship from "../pages/DashboardHome/AdminDashboard/AddScholarship";
 import ManageScholarship from "../pages/DashboardHome/AdminDashboard/ManageScholarship";
-import Analytics from "../pages/DashboardHome/AdminDashboard/Analytics";
+import Analytics from "../pages/DashboardHome/AdminDashboard/AdminAnalytics";
 import MyProfile from "../pages/DashboardHome/MyProfile";
 import ScholarshipDetails from "../pages/AllScholarships/ScholarshipDetails";
 import StudentDashboardHome from "../pages/DashboardHome/StudentDashboard/StudentDashboardHome";

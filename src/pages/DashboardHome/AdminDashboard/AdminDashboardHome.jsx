@@ -7,6 +7,13 @@ const AdminDashboardHome = () => {
       <h2 className="text-2xl font-bold mb-6 text-center">Admin Dashboard</h2>
 
       <div className="flex flex-col gap-4">
+        {/* Home */}
+        <Link
+          to="/"
+          className="px-6 py-3 bg-indigo-500 text-white rounded-lg text-center hover:bg-indigo-600 transition"
+        >
+          Home
+        </Link>
         <Link
           to="/dashboard/add-scholarship"
           className="px-6 py-3 bg-emerald-500 text-white rounded-lg text-center hover:bg-emerald-600 transition"
