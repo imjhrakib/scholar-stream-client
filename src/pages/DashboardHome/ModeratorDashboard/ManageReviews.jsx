@@ -69,7 +69,7 @@ const ManageReviews = () => {
                   </td>
                   <td className="text-center">{review.universityName}</td>
                   <td className="text-center text-slate-600">
-                    {review.reviewComment}
+                    {review.comment}
                   </td>
 
                   <td className="text-center">

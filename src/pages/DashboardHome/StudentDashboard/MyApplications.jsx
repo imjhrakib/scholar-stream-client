@@ -12,6 +12,7 @@ const MyApplications = () => {
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [editApp, setEditApp] = useState(null);
   const modalRef = useRef();
+  const editModalRef = useRef();
   const [comment, setComment] = useState("");
   const [star, setStar] = useState("");
 
@@ -34,7 +35,7 @@ const MyApplications = () => {
   const handleEdit = (id) => {
     axiosSecure.get(`/application/${id}`).then((res) => {
       setEditApp(res.data);
-      modalRef.current.showModal();
+      editModalRef.current.showModal();
     });
   };
 
@@ -58,6 +59,8 @@ const MyApplications = () => {
       applicationId: application._id,
       scholarshipName: application.scholarshipName,
       universityName: application.universityName,
+      userName: user?.displayName,
+      userEmail: user?.email,
       rating: star,
       comment: comment,
     };
@@ -278,7 +281,7 @@ const MyApplications = () => {
       </dialog>
 
       {/* EDIT MODAL */}
-      <dialog ref={modalRef} className="modal">
+      <dialog ref={editModalRef} className="modal">
         <div className="modal-box max-w-4xl">
           <h2 className="text-xl font-semibold text-center mb-4 text-slate-800">
             Edit Application
