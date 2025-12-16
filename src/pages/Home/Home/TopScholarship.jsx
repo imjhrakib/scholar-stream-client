@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import ScholarshipCard from "../../../components/ui/ScholarshipCard";
 import { motion } from "framer-motion";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { Link } from "react-router";
 
 const TopScholarship = () => {
   const [scholarships, setScholarships] = useState([]);
@@ -34,6 +35,19 @@ const TopScholarship = () => {
             <ScholarshipCard scholarship={s} />
           </motion.div>
         ))}
+      </div>
+      {/* Show All Button */}
+      <div className="flex justify-center mt-8">
+        <Link
+          to="/scholarships"
+          className="px-8 py-3 rounded-xl 
+    bg-gradient-to-r from-blue-600 to-indigo-600 
+    text-white font-semibold 
+    shadow-md hover:shadow-xl 
+    hover:scale-105 transition-all duration-300"
+        >
+          Show All Scholarships →
+        </Link>
       </div>
     </div>
   );

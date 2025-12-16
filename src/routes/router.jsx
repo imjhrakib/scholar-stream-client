@@ -26,6 +26,7 @@ import Payment from "../pages/Payments/PaymentSuccess";
 import PaymentSuccess from "../pages/Payments/PaymentSuccess";
 import PaymentCancelled from "../pages/Payments/PaymentCancelled";
 import ModeratorRoute from "./ModeratorRoute";
+import About from "../pages/About/About";
 
 export const router = createBrowserRouter([
   {
@@ -43,6 +44,10 @@ export const router = createBrowserRouter([
             <AllScholarships></AllScholarships>
           </PrivateRoute>
         ),
+      },
+      {
+        path: "about",
+        Component: About,
       },
       {
         path: "scholarship/:id",

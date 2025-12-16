@@ -14,7 +14,6 @@ const MyProfile = () => {
     },
   });
 
-  // Mock data (You can replace with real DB data)
   const role = profile?.role || "student";
   const joinedAt = profile?.createdAt || "2025-01-01";
 

@@ -18,7 +18,7 @@ const ManageScholarship = () => {
   const { refetch, data: scholarships = [] } = useQuery({
     queryKey: ["scholarship"],
     queryFn: async () => {
-      const result = await axiosSecure.get("scholarships");
+      const result = await axiosSecure.get("/scholarships");
       return result.data;
     },
   });
@@ -26,7 +26,7 @@ const ManageScholarship = () => {
   const updateScholarship = async (id) => {
     // specific scholarship
 
-    const result = await axiosSecure.get(`scholarship/${id}`);
+    const result = await axiosSecure.get(`/scholarship/${id}`);
     setSelectedScholarship(result.data);
   };
 
@@ -64,8 +64,14 @@ const ManageScholarship = () => {
       .patch(`/scholarships/${selectedScholarship._id}`, updatedData)
       .then((res) => {
         if (res.data.modifiedCount > 0) {
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Scholarship updated Successfully",
+            showConfirmButton: false,
+            timer: 1500,
+          });
           refetch();
-
           setSelectedScholarship(null);
           modalRef.current.close();
         }
@@ -83,7 +89,7 @@ const ManageScholarship = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosSecure.delete(`scholarships/${id}`).then((res) => {
+        axiosSecure.delete(`/scholarships/${id}`).then((res) => {
           if (res.data.deletedCount > 0) {
             refetch();
             Swal.fire({

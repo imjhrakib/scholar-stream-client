@@ -24,7 +24,7 @@ const ManageAppliedApplication = () => {
   });
 
   const handleDetails = (id) => {
-    axiosSecure.get(`/application/${id}`).then((res) => {
+    axiosSecure.get(`/application/${id}/details`).then((res) => {
       setSelectedApplication(res.data);
       document.getElementById("details_modal").showModal();
     });
@@ -51,7 +51,7 @@ const ManageAppliedApplication = () => {
       }
     });
   };
-  const deleteScholarship = (id) => {
+  const deleteApplication = (id) => {
     Swal.fire({
       title: "Are you sure?",
       text: "This action cannot be undone!",
@@ -62,7 +62,7 @@ const ManageAppliedApplication = () => {
       confirmButtonText: "Delete",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosSecure.delete(`application/${id}`).then((res) => {
+        axiosSecure.delete(`/application/${id}/moderator`).then((res) => {
           if (res.data.deletedCount > 0) {
             refetch();
             Swal.fire("Deleted!", "Application removed.", "success");
@@ -168,7 +168,7 @@ const ManageAppliedApplication = () => {
 
                     {app.status === "pending" && (
                       <button
-                        onClick={() => deleteScholarship(app._id)}
+                        onClick={() => deleteApplication(app._id)}
                         className="flex items-center gap-1 btn btn-sm bg-red-500 text-white hover:bg-red-600"
                       >
                         <AiOutlineDelete size={16} /> Reject

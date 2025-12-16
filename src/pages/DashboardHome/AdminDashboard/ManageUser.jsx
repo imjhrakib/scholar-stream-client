@@ -21,8 +21,13 @@ const ManageUser = () => {
   const handleRole = (id, role) => {
     axiosSecure.patch(`/users/${id}/role`, { role }).then((res) => {
       if (res.data.modifiedCount > 0) {
-        console.log(res.data);
-        refetch();
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "User Role has been changed",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       }
     });
   };
@@ -37,14 +42,14 @@ const ManageUser = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosSecure.delete(`users/${id}`).then((res) => {
+        axiosSecure.delete(`/users/${id}`).then((res) => {
           if (res.data.deletedCount > 0) {
-            refetch();
             Swal.fire({
               title: "Deleted!",
               text: "Your file has been deleted.",
               icon: "success",
             });
+            refetch();
           }
         });
       }
@@ -81,7 +86,6 @@ const ManageUser = () => {
           </thead>
           <tbody>
             {users.map((user, index) => (
-              
               <tr key={user._id}>
                 <th>{index + 1}</th>
                 <td>

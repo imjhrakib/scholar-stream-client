@@ -19,7 +19,6 @@ const ScholarshipDetails = () => {
     const fetchScholarship = async () => {
       try {
         const res = await axiosSecure.get(`/scholarship/${id}`);
-        console.log(res.data);
         setScholarship(res.data);
         // Fetch reviews for this scholarship
         const reviewRes = await axiosSecure.get(`/reviews/${id}/review`);
@@ -44,7 +43,7 @@ const ScholarshipDetails = () => {
       userEmail: user?.email,
       displayName: user?.displayName,
     };
-    axiosSecure.post("/applications", application).then((res) => {
+    axiosSecure.post("/application", application).then((res) => {
       if (res.data.insertedId) {
         Swal.fire("Pay for Confirmation");
         navigate("/dashboard/my-application");

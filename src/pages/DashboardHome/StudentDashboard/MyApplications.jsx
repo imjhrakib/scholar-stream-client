@@ -26,7 +26,7 @@ const MyApplications = () => {
   });
 
   const handleDetails = (id) => {
-    axiosSecure.get(`/application/${id}`).then((res) => {
+    axiosSecure.get(`/application/${id}/details`).then((res) => {
       setSelectedApplication(res.data);
       document.getElementById("details_modal").showModal();
     });
@@ -82,7 +82,7 @@ const MyApplications = () => {
         }
       });
   };
-  const deleteScholarship = (id) => {
+  const deleteApplication = (id) => {
     Swal.fire({
       title: "Are you sure?",
       text: "This action cannot be undone!",
@@ -93,7 +93,7 @@ const MyApplications = () => {
       confirmButtonText: "Delete",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosSecure.delete(`application/${id}`).then((res) => {
+        axiosSecure.delete(`/application/${id}/student`).then((res) => {
           if (res.data.deletedCount > 0) {
             refetch();
             Swal.fire("Deleted!", "Application removed.", "success");
@@ -200,7 +200,7 @@ const MyApplications = () => {
                       )}
 
                       <button
-                        onClick={() => deleteScholarship(app._id)}
+                        onClick={() => deleteApplication(app._id)}
                         className="btn btn-sm bg-red-500 hover:bg-red-600 text-white"
                       >
                         Delete

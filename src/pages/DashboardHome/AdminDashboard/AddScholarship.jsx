@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import useAxios from "../../../hooks/useAxios";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const AddScholarship = () => {
   const axios = useAxios();
@@ -14,8 +15,6 @@ const AddScholarship = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log("Scholarship Data:", data);
-
     const scholarshipImg = data.photo[0];
 
     // store the image and get the photo url
@@ -31,7 +30,7 @@ const AddScholarship = () => {
       const scholarshipInfo = {
         scholarshipName: data.scholarshipName,
         universityName: data.universityName,
-        photo: data.photoURL,
+        photo: photoURL,
         country: data.country,
         city: data.city,
         worldRank: data.worldRank,
@@ -48,12 +47,17 @@ const AddScholarship = () => {
       };
       axiosSecure.post("/scholarships", scholarshipInfo).then((res) => {
         if (res.data.insertedId) {
-          console.log("scholarship created from register", res.data);
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Scholarship added successfully",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          reset();
         }
       });
     });
-
-    reset();
   };
 
   return (
