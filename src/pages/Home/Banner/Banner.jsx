@@ -1,6 +1,7 @@
 import React from "react";
 import { BiSearch } from "react-icons/bi";
 import { motion } from "framer-motion";
+import { Link } from "react-router";
 
 const Banner = () => {
   return (
@@ -32,17 +33,19 @@ const Banner = () => {
         </motion.p>
 
         {/* Search Button */}
-        <motion.button
-          className="mt-10 inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3 md:px-10 md:py-4 rounded-xl text-lg font-semibold shadow-lg hover:bg-blue-700 hover:shadow-xl transition-all"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-        >
-          <BiSearch size={22} />
-          Search Scholarship
-        </motion.button>
+        <Link to={"/scholarships"}>
+          <motion.button
+            className="mt-10 inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3 md:px-10 md:py-4 rounded-xl text-lg font-semibold shadow-lg hover:bg-blue-700 hover:shadow-xl transition-all"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+          >
+            <BiSearch size={22} />
+            Search Scholarship
+          </motion.button>
+        </Link>
       </div>
 
       {/* Decorative circles */}
