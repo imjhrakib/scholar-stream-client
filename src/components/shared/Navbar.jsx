@@ -46,6 +46,19 @@ const Navbar = () => {
           All Scholarships
         </NavLink>
       </li>
+      <li className="font-semibold transition">
+        <NavLink
+          to="/about"
+          onClick={closeMobile}
+          className={({ isActive }) =>
+            isActive
+              ? "text-blue-600 border-b-2 border-blue-600 pb-1"
+              : "hover:text-blue-500 hover:border-b-2 border-transparent pb-1 hover:border-blue-500"
+          }
+        >
+          About
+        </NavLink>
+      </li>
 
       {user && (
         <li className="font-semibold transition">

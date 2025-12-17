@@ -6,6 +6,7 @@ import { FaEdit } from "react-icons/fa";
 import { AiOutlineDelete } from "react-icons/ai";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
+import useAuth from "../../../hooks/useAuth";
 
 const ManageScholarship = () => {
   const modalRef = useRef(null);
@@ -91,12 +92,12 @@ const ManageScholarship = () => {
       if (result.isConfirmed) {
         axiosSecure.delete(`/scholarships/${id}`).then((res) => {
           if (res.data.deletedCount > 0) {
-            refetch();
             Swal.fire({
               title: "Deleted!",
               text: "Your file has been deleted.",
               icon: "success",
             });
+            refetch();
           }
         });
       }

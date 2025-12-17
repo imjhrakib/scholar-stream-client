@@ -4,14 +4,15 @@ import useAuth from "./useAuth";
 import { useNavigate } from "react-router";
 
 const axiosSecure = axios.create({
-  baseURL: "https://scholar-stream-server-iota.vercel.app",
+  baseURL: "https://scholar-server-lemon.vercel.app",
 });
 
 const useAxiosSecure = () => {
-  const { user, logOut } = useAuth();
+  const { user, loading, logOut } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (loading || !user?.accessToken) return;
     const reqInterceptor = axiosSecure.interceptors.request.use((config) => {
       config.headers.Authorization = `Bearer ${user?.accessToken}`;
       return config;
@@ -36,7 +37,7 @@ const useAxiosSecure = () => {
       axiosSecure.interceptors.request.eject(reqInterceptor);
       axiosSecure.interceptors.response.eject(resInterceptor);
     };
-  }, [user]);
+  }, [user, loading]);
 
   return axiosSecure;
 };

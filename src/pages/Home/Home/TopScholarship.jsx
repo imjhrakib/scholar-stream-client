@@ -1,24 +1,20 @@
 import React, { useEffect, useState } from "react";
 import ScholarshipCard from "../../../components/ui/ScholarshipCard";
 import { motion } from "framer-motion";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { Link } from "react-router";
+import { useQuery } from "@tanstack/react-query";
+import useAxios from "../../../hooks/useAxios";
 
 const TopScholarship = () => {
-  const [scholarships, setScholarships] = useState([]);
-  const axiosSecure = useAxiosSecure();
-  useEffect(() => {
-    const fetchScholarships = async () => {
-      try {
-        const res = await axiosSecure.get("/scholarships");
-        setScholarships(res.data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
+  const axios = useAxios();
 
-    fetchScholarships();
-  }, [axiosSecure]);
+  const { data: scholarships = [] } = useQuery({
+    queryKey: ["top-scholarship"],
+    queryFn: async () => {
+      const result = await axios.get("/scholarships/top");
+      return result.data;
+    },
+  });
 
   return (
     <div className="p-10">
