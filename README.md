@@ -44,3 +44,16 @@ ScholarStream is a full-stack MERN application designed to help students discove
 - dotenv
 
 ---
+## Installation
+1. Clone the repository:
+   git clone [https://github.com/imjhrakib/scholar-stream-client](https://github.com/imjhrakib/scholar-stream-client)
+
+2. Navigate to the project folder:
+   cd scholar-stream
+
+3. Install dependencies:
+   npm install
+
+4. Run the app locally:
+   npm run dev
+
