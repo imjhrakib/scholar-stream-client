@@ -3,14 +3,17 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
+import useTheme from "../../../hooks/useTheme"; // import theme hook
 
 const MyReview = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const { theme, colors } = useTheme(); // get theme & colors
   const [star, setStar] = useState("");
   const [comment, setComment] = useState("");
   const [selectedReview, setSelectedReview] = useState(null);
   const modalRef = useRef();
+
   const { refetch, data: reviews = [] } = useQuery({
     queryKey: ["review"],
     queryFn: async () => {
@@ -18,12 +21,10 @@ const MyReview = () => {
       return result.data;
     },
   });
+
   const handleEditReview = async (id) => {
-    const updatedReviews = {
-      rating: star,
-      comment: comment,
-    };
-    const review = await axiosSecure
+    const updatedReviews = { rating: star, comment: comment };
+    await axiosSecure
       .patch(`/review/${id}/edit`, updatedReviews)
       .then((res) => {
         if (res.data.modifiedCount) {
@@ -36,6 +37,7 @@ const MyReview = () => {
         }
       });
   };
+
   const handleReviewDelete = async (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -60,14 +62,31 @@ const MyReview = () => {
       }
     });
   };
-  return (
-    <div className="p-6">
-      <h2 className="text-2xl font-semibold mb-4 text-slate-800">My Reviews</h2>
 
-      <div className="overflow-x-auto rounded-xl shadow-md border border-slate-200">
+  return (
+    <div className="p-6" style={{ color: colors[theme].textPrimary }}>
+      <h2
+        className="text-2xl font-semibold mb-4"
+        style={{ color: colors[theme].textPrimary }}
+      >
+        My Reviews
+      </h2>
+
+      <div
+        className="overflow-x-auto rounded-xl shadow-md border"
+        style={{
+          borderColor: colors[theme].border,
+          backgroundColor: colors[theme].bgCard,
+        }}
+      >
         <table className="table w-full">
           <thead>
-            <tr className="bg-slate-100 text-slate-700 text-sm">
+            <tr
+              style={{
+                backgroundColor: colors[theme].bgSubCard,
+                color: colors[theme].textPrimary,
+              }}
+            >
               <th className="text-center py-3">SL No.</th>
               <th className="text-center py-3">Scholarship Name</th>
               <th className="text-center py-3">University</th>
@@ -78,27 +97,28 @@ const MyReview = () => {
             </tr>
           </thead>
 
-          <tbody className="text-slate-700 text-sm">
+          <tbody style={{ color: colors[theme].textSecondary }}>
             {reviews.map((review, index) => (
-              <tr key={review._id} className="hover:bg-slate-50 transition">
+              <tr
+                key={review._id}
+                style={{ backgroundColor: colors[theme].bgCard }}
+                className="hover:opacity-90 transition"
+              >
                 <td className="text-center py-3">{index + 1}</td>
                 <td className="text-center font-medium">
                   {review.scholarshipName}
                 </td>
                 <td className="text-center">{review.universityName}</td>
-                <td className="text-center text-slate-600">{review.comment}</td>
-
+                <td className="text-center">{review.comment}</td>
                 <td className="text-center">
                   {new Date(review.createdAt).toLocaleString("en-US", {
                     dateStyle: "medium",
                     timeStyle: "short",
                   })}
                 </td>
-
                 <td className="text-center font-semibold text-blue-600">
                   ⭐ {review.rating}
                 </td>
-
                 <td className="flex justify-center gap-2 py-3">
                   <button
                     onClick={() => {
@@ -124,14 +144,37 @@ const MyReview = () => {
         </table>
       </div>
 
-      <dialog id="my_modal_5" className="modal">
+      {/* REVIEW MODAL */}
+      <dialog
+        id="my_modal_5"
+        className="modal"
+        style={{
+          color: colors[theme].textPrimary,
+          backgroundColor: colors[theme].bgCard,
+          borderColor: colors[theme].border,
+        }}
+      >
         <div className="modal-box">
-          <h2 className="text-xl font-semibold mb-4">Add a Review</h2>
+          <h2
+            className="text-xl font-semibold mb-4"
+            style={{ color: colors[theme].textPrimary }}
+          >
+            Add a Review
+          </h2>
 
-          {/* Star Rating */}
-          <label className="block mb-2 font-medium">Rating</label>
+          <label
+            className="block mb-2 font-medium"
+            style={{ color: colors[theme].textPrimary }}
+          >
+            Rating
+          </label>
           <select
-            className="border border-gray-300 rounded px-3 py-2 w-full mb-4 bg-white"
+            className="border rounded px-3 py-2 w-full mb-4"
+            style={{
+              borderColor: colors[theme].border,
+              backgroundColor: colors[theme].bgCard,
+              color: colors[theme].textPrimary,
+            }}
             value={star}
             onChange={(e) => setStar(e.target.value)}
           >
@@ -143,26 +186,31 @@ const MyReview = () => {
             <option value="5">⭐ 5</option>
           </select>
 
-          {/* Comment */}
-          <label className="block mb-2 font-medium">Comment</label>
+          <label
+            className="block mb-2 font-medium"
+            style={{ color: colors[theme].textPrimary }}
+          >
+            Comment
+          </label>
           <textarea
             placeholder="Share your thoughts..."
-            className="textarea textarea-accent w-full h-24"
+            className="textarea w-full h-24 mb-4"
+            style={{
+              backgroundColor: colors[theme].bgCard,
+              color: colors[theme].textPrimary,
+              borderColor: colors[theme].border,
+            }}
             value={comment}
             onChange={(e) => setComment(e.target.value)}
           ></textarea>
 
-          {/* Buttons */}
           <div className="modal-action">
-            {/* IMPORTANT: remove method='dialog' or it will auto-close */}
             <button
               className="btn btn-primary"
               onClick={() => handleEditReview(selectedReview)}
             >
               Submit
             </button>
-
-            {/* Close Modal Button */}
             <form method="dialog">
               <button className="btn">Cancel</button>
             </form>
