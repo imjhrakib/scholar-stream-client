@@ -1,86 +1,140 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Link, Navigate, useLocation, useNavigate } from "react-router";
-import SocialLogin from "../SocialLogin/SocialLogin";
-import useAuth from "../../../hooks/useAuth";
+import { Link, NavLink, useLocation, useNavigate } from "react-router";
 import Swal from "sweetalert2";
+import useAuth from "../../../hooks/useAuth";
+import useTheme from "../../../hooks/useTheme";
+import DemoCredentials from "../../../components/DemoCredentials";
+import SocialLogin from "../SocialLogin/SocialLogin";
 
 const Login = () => {
   const location = useLocation();
-
   const navigate = useNavigate();
+  const { signInUser, user } = useAuth();
+  const { theme, colors } = useTheme();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { signInUser, user } = useAuth();
 
   const handleLogin = (data) => {
+    if (user) {
+      Swal.fire({
+        icon: "info",
+        title: "Already Logged In",
+        text: "Please logout first",
+      });
+      return;
+    }
+
     signInUser(data.email, data.password)
-      .then((result) => {
+      .then(() => {
         navigate(location?.state || "/");
         Swal.fire({
-          position: "top-end",
           icon: "success",
-          title: `Welcome to Our webSite`,
-          showConfirmButton: false,
+          title: "Welcome Back!",
           timer: 1500,
+          showConfirmButton: false,
         });
       })
       .catch((error) => {
-        Swal.fire(error.message);
+        Swal.fire({
+          icon: "error",
+          title: error.message,
+        });
       });
   };
+
   return (
-    <div className="card bg-base-100 w-full mx-auto max-w-sm shrink-0 shadow-2xl">
-      <h2 className="text-center text-3xl font-bold mt-5">Login Now</h2>
-      <form className="card-body" onSubmit={handleSubmit(handleLogin)}>
-        <fieldset className="fieldset">
-          <label className="label">Email</label>
-          <input
-            type="email"
-            {...register("email", { required: true })}
-            className="input"
-            placeholder="Email"
-          />
-          {errors.email?.type === "required" && (
-            <p className="text-red-500">Email required</p>
-          )}
-          <label className="label">Password</label>
-          <input
-            type="password"
-            {...register("password", { required: true, minLength: 6 })}
-            className="input"
-            placeholder="Password"
-          />
-          {errors.password?.type === "required" && (
-            <p className="text-red-500">Password required</p>
-          )}
-          {errors.password?.type === "minLength" && (
-            <p className="text-red-500">
-              Password must be at least 6 character
-            </p>
-          )}
-          <div>
-            <Link to={"/resetPassword"} className="link link-hover underline">
-              Forgot password?
-            </Link>
-          </div>
-          <button className="btn btn-neutral mt-4">Login</button>
-        </fieldset>
-        <p>
-          New to scholarStream{" "}
-          <Link
-            state={location?.state}
-            to={"/register"}
-            className="text-blue-600 underline"
+    <div className="py-5">
+      <div
+        className="card mx-auto w-full max-w-sm shadow-2xl pt-7 border transition-colors duration-500"
+        style={{
+          backgroundColor: colors[theme].bgCard,
+          color: colors[theme].textPrimary,
+          borderColor: colors[theme].border,
+        }}
+      >
+        <h1 className="text-4xl text-center font-bold">Login</h1>
+
+        <h4 className="text-center mt-3 text-sm">
+          Don&apos;t have an account?{" "}
+          <span
+            className="font-semibold"
+            style={{ color: colors[theme].primary }}
           >
-            Register
-          </Link>
-        </p>
-      </form>
-      <SocialLogin></SocialLogin>
+            <NavLink to="/register" state={location?.state}>
+              Register Now
+            </NavLink>
+          </span>
+        </h4>
+
+        {/* Demo Credentials */}
+        <div className="mx-5">
+          <DemoCredentials />
+        </div>
+
+        <div className="card-body">
+          <form onSubmit={handleSubmit(handleLogin)}>
+            <fieldset className="fieldset space-y-1">
+              <label className="label">Email</label>
+              <input
+                type="email"
+                {...register("email", { required: true })}
+                className="input"
+                placeholder="Email"
+                style={{
+                  backgroundColor: theme === "dark" ? "#1F1F2A" : "#FFFFFF",
+                  color: colors[theme].textPrimary,
+                  borderColor: colors[theme].border,
+                }}
+              />
+              {errors.email && (
+                <p className="text-red-500 text-sm">Email is required</p>
+              )}
+
+              <label className="label">Password</label>
+              <input
+                type="password"
+                {...register("password", { required: true, minLength: 6 })}
+                className="input"
+                placeholder="Password"
+                style={{
+                  backgroundColor: theme === "dark" ? "#1F1F2A" : "#FFFFFF",
+                  color: colors[theme].textPrimary,
+                  borderColor: colors[theme].border,
+                }}
+              />
+              {errors.password && (
+                <p className="text-red-500 text-sm">
+                  Password must be at least 6 characters
+                </p>
+              )}
+
+              <div>
+                <Link
+                  to="/resetPassword"
+                  className="underline text-sm"
+                  style={{ color: colors[theme].primary }}
+                >
+                  Forgot password?
+                </Link>
+              </div>
+
+              <button
+                className="btn text-white text-lg border-none mt-4 hover:opacity-90"
+                style={{ backgroundColor: colors[theme].primary }}
+              >
+                Login
+              </button>
+            </fieldset>
+          </form>
+          {/* Social Login */}
+          <SocialLogin />
+        </div>
+      </div>
     </div>
   );
 };
