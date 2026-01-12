@@ -39,11 +39,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "scholarships",
-        element: (
-          <PrivateRoute>
-            <AllScholarships></AllScholarships>
-          </PrivateRoute>
-        ),
+        element: <AllScholarships></AllScholarships>,
       },
       {
         path: "about",
@@ -51,11 +47,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "scholarship/:id",
-        element: (
-          <PrivateRoute>
-            <ScholarshipDetails></ScholarshipDetails>
-          </PrivateRoute>
-        ),
+        element: <ScholarshipDetails></ScholarshipDetails>,
       },
     ],
   },

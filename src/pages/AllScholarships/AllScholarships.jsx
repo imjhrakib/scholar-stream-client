@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import ScholarshipCard from "../../components/ui/ScholarshipCard";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { motion } from "framer-motion";
 import { TiThMenu } from "react-icons/ti";
 import { IoMdCloseCircleOutline } from "react-icons/io";
+import useAxios from "../../hooks/useAxios";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const AllScholarships = () => {
+  const axios = useAxios();
   const axiosSecure = useAxiosSecure();
   const [showSidebar, setShowSidebar] = useState(false);
   const [scholarships, setScholarships] = useState([]);
@@ -19,7 +21,7 @@ const AllScholarships = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axiosSecure.get("/scholarships/search", {
+        const res = await axios.get("/scholarships/search", {
           params: {
             search,
             country,
@@ -37,7 +39,7 @@ const AllScholarships = () => {
     };
 
     fetchData();
-  }, [search, country, sort, page, limit, axiosSecure]);
+  }, [search, country, sort, page, limit, axios]);
 
   return (
     <div>

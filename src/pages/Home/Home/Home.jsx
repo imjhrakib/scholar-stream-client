@@ -8,7 +8,7 @@ import MyProfile from "../../DashboardHome/MyProfile";
 
 const Home = () => {
   return (
-    <div>
+    <div className="pt-1">
       <Banner></Banner>
       <TopScholarship></TopScholarship>
       <SuccessStories></SuccessStories>

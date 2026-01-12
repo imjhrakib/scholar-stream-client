@@ -5,23 +5,24 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
 import { FaStar } from "react-icons/fa";
 import Swal from "sweetalert2";
+import useAxios from "../../hooks/useAxios";
 
 const ScholarshipDetails = () => {
   const { id } = useParams();
-  console.log(id);
   const { user } = useAuth();
   const [scholarship, setScholarship] = useState(null);
   const [reviews, setReviews] = useState([]);
   const axiosSecure = useAxiosSecure();
+  const axios = useAxios();
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchScholarship = async () => {
       try {
-        const res = await axiosSecure.get(`/scholarship/${id}`);
+        const res = await axios.get(`/scholarship/${id}`);
         setScholarship(res.data);
         // Fetch reviews for this scholarship
-        const reviewRes = await axiosSecure.get(`/reviews/${id}/review`);
+        const reviewRes = await axios.get(`/reviews/${id}/review`);
         setReviews(reviewRes.data);
       } catch (err) {
         console.error(err);
