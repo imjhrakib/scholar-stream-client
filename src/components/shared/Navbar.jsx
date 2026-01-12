@@ -65,7 +65,7 @@ const Navbar = () => {
   // Navbar links
   const links = (
     <>
-      {["/", "/scholarships", "/about"].map((path, i) => {
+      {["/", "/scholarships", "/about", "/contact"].map((path, i) => {
         const name =
           path === "/"
             ? "Home"

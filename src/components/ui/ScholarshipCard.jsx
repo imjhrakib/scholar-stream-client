@@ -1,34 +1,26 @@
 import React from "react";
 import { motion } from "framer-motion";
-import {
-  FaUniversity,
-  FaMapMarkerAlt,
-  FaTag,
-  FaMoneyBillWave,
-} from "react-icons/fa";
+import { FaUniversity, FaMoneyBillWave } from "react-icons/fa";
 import { Link } from "react-router";
 import useTheme from "../../hooks/useTheme";
 
 const ScholarshipCard = ({ scholarship }) => {
   const { theme, colors } = useTheme();
 
-  // Determine colors based on theme
-  const bgCard = theme === "dark" ? colors.dark.bgCard : colors.light.bgCard;
-  const textPrimary =
-    theme === "dark" ? colors.dark.textPrimary : colors.light.textPrimary;
-  const textSecondary =
-    theme === "dark" ? colors.dark.textSecondary : colors.light.textSecondary;
-  const border = theme === "dark" ? colors.dark.border : colors.light.border;
+  const bgCard = colors[theme].bgCard;
+  const textPrimary = colors[theme].textPrimary;
+  const textSecondary = colors[theme].textSecondary;
+  const border = colors[theme].border;
 
   return (
     <motion.div
-      className="p-6 rounded-3xl shadow-md border flex flex-col justify-between overflow-hidden"
+      className="p-4 rounded-2xl shadow-md border flex flex-col justify-between overflow-hidden h-full"
       style={{
         backgroundColor: bgCard,
         color: textPrimary,
         border: `1px solid ${border}`,
       }}
-      whileHover={{ scale: 1.04 }}
+      whileHover={{ scale: 1.03 }}
       transition={{ type: "spring", stiffness: 200 }}
     >
       {/* University Image */}
@@ -36,48 +28,51 @@ const ScholarshipCard = ({ scholarship }) => {
         <img
           src={scholarship.photo}
           alt={scholarship.universityName}
-          className="w-full h-44 object-cover rounded-2xl mb-5"
+          className="w-full h-32 object-cover rounded-xl mb-4"
           style={{ border: `1px solid ${border}` }}
         />
       )}
 
       {/* Scholarship Info */}
-      <div className="mb-6 flex flex-col gap-3">
-        <h3 style={{ color: textPrimary }} className="text-2xl font-bold">
+      <div className="flex flex-col gap-2 mb-4 flex-1">
+        {/* Scholarship Name */}
+        <h3
+          className="text-lg font-semibold line-clamp-2"
+          style={{ color: textPrimary }}
+          title={scholarship.scholarshipName}
+        >
           {scholarship.scholarshipName}
         </h3>
 
-        <p style={{ color: textSecondary }} className="flex items-center gap-2">
-          <FaUniversity style={{ color: "#4FD1C5" }} />
+        {/* University */}
+        <p
+          className="flex items-center gap-2 text-sm line-clamp-1"
+          style={{ color: textSecondary }}
+          title={scholarship.universityName}
+        >
+          <FaUniversity className="text-teal-400" />
           {scholarship.universityName}
         </p>
 
-        <p style={{ color: textSecondary }} className="flex items-center gap-2">
-          <FaTag style={{ color: "#7F5AF0" }} />
-          {scholarship.scholarshipCategory || "N/A"}
-        </p>
-
-        <p style={{ color: textSecondary }} className="flex items-center gap-2">
-          <FaMapMarkerAlt style={{ color: "#38B2AC" }} />
-          {scholarship.city}, {scholarship.country}
-        </p>
-
-        <p style={{ color: textSecondary }} className="flex items-center gap-2">
-          <FaMoneyBillWave style={{ color: "#F6E05E" }} />
-          Application Fee: ${scholarship.applicationFees || "0"}
+        {/* Fee */}
+        <p
+          className="flex items-center gap-2 text-sm"
+          style={{ color: textSecondary }}
+        >
+          <FaMoneyBillWave className="text-yellow-400" />
+          Fee: ${scholarship.applicationFees || 0}
         </p>
       </div>
 
       {/* View Details Button */}
       <Link to={`/scholarship/${scholarship._id}`}>
         <button
-          className="mt-auto px-5 py-3 rounded-2xl font-semibold shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 w-full text-center"
+          className="mt-auto px-4 py-2 rounded-xl font-medium shadow hover:shadow-lg hover:scale-105 transition-transform duration-200 w-full text-center text-white"
           style={{
             background:
               theme === "dark"
                 ? "linear-gradient(to right, #4FD1C5, #38B2AC)"
                 : "linear-gradient(to right, #3B82F6, #6366F1)",
-            color: "#fff",
           }}
         >
           View Details

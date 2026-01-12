@@ -132,7 +132,7 @@ const About = () => {
 
       {/* Why Choose ScholarStream */}
       <div
-        className="rounded-xl p-8 space-y-4"
+        className="rounded-xl p-8 shadow-md space-y-6 max-w-4xl mx-auto"
         style={{ backgroundColor: bgCard }}
       >
         <h2
@@ -141,15 +141,30 @@ const About = () => {
         >
           Why Choose ScholarStream?
         </h2>
-        <ul
-          className="list-disc list-inside max-w-3xl mx-auto space-y-2"
+        <p
+          className="text-center max-w-2xl mx-auto"
           style={{ color: textSecondary }}
         >
-          <li>Centralized and easy-to-use scholarship platform</li>
-          <li>Secure authentication and payment system</li>
-          <li>Role-based dashboards for Students, Moderators, and Admins</li>
-          <li>Real-time application tracking and feedback</li>
-          <li>Modern, responsive, and recruiter-friendly UI</li>
+          ScholarStream is designed to simplify the scholarship process for
+          students, universities, and admins. Here’s why it stands out:
+        </p>
+        <ul
+          className="list-disc list-inside space-y-2 text-lg"
+          style={{ color: textSecondary }}
+        >
+          <li>
+            Centralized platform to discover, apply, and manage scholarships
+            efficiently
+          </li>
+          <li>
+            Secure authentication and payment system for safe transactions
+          </li>
+          <li>
+            Role-based dashboards tailored for Students, Universities, and
+            Admins
+          </li>
+          <li>Real-time application tracking and feedback system</li>
+          <li>Modern, responsive, and user-friendly interface</li>
         </ul>
       </div>
     </div>

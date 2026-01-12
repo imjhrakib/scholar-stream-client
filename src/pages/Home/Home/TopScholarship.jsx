@@ -41,14 +41,14 @@ const TopScholarship = () => {
       </p>
 
       {/* Scholarships Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {scholarships.map((s, i) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {scholarships.slice(0, 8).map((s, i) => (
           <motion.div
-            key={i}
+            key={s._id || i}
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6, delay: i * 0.2 }}
+            transition={{ duration: 0.6, delay: i * 0.1 }}
           >
             <ScholarshipCard scholarship={s} />
           </motion.div>
