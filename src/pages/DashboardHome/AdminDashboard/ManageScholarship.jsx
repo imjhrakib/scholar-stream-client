@@ -7,8 +7,10 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
+import useTheme from "../../../hooks/useTheme"; // added
 
 const ManageScholarship = () => {
+  const { theme, colors } = useTheme(); // added
   const modalRef = useRef(null);
   const axios = useAxios();
   const axiosSecure = useAxiosSecure();
@@ -25,8 +27,6 @@ const ManageScholarship = () => {
   });
 
   const updateScholarship = async (id) => {
-    // specific scholarship
-
     const result = await axiosSecure.get(`/scholarship/${id}`);
     setSelectedScholarship(result.data);
   };
@@ -39,8 +39,6 @@ const ManageScholarship = () => {
 
   const onSubmit = async (data) => {
     let updatedData = {};
-
-    // Only include changed fields
     for (const key in dirtyFields) {
       if (key === "photo") {
         const imageFile = data.photo[0];
@@ -60,7 +58,6 @@ const ManageScholarship = () => {
       }
     }
 
-    // Send only changed data
     const res = await axiosSecure
       .patch(`/scholarships/${selectedScholarship._id}`, updatedData)
       .then((res) => {
@@ -106,11 +103,18 @@ const ManageScholarship = () => {
 
   return (
     <>
-      <div className="overflow-x-auto">
-        <table className="table table-zebra">
-          {/* head */}
-          <thead>
-            <tr className="bg-gray-100">
+      <div
+        className="overflow-x-auto"
+        style={{ backgroundColor: colors[theme].bg }}
+      >
+        <table className="table table-zebra w-full">
+          <thead
+            style={{
+              backgroundColor: colors[theme].bgCard,
+              color: colors[theme].textPrimary,
+            }}
+          >
+            <tr>
               <th>SL No.</th>
               <th>Scholarship Name</th>
               <th>University Name</th>
@@ -119,9 +123,14 @@ const ManageScholarship = () => {
             </tr>
           </thead>
           <tbody>
-            {/* row 1 */}
             {scholarships.map((scholarship, index) => (
-              <tr key={scholarship._id}>
+              <tr
+                key={scholarship._id}
+                style={{
+                  backgroundColor: colors[theme].bgCard,
+                  color: colors[theme].textPrimary,
+                }}
+              >
                 <th>{index + 1}</th>
                 <td>{scholarship.scholarshipName}</td>
                 <td>{scholarship.universityName}</td>
@@ -134,15 +143,13 @@ const ManageScholarship = () => {
                     }}
                     className="btn btn-xs md:btn-sm btn-warning"
                   >
-                    <FaEdit></FaEdit>
-                    Edit
+                    <FaEdit /> Edit
                   </button>
                   <button
                     onClick={() => deleteScholarship(scholarship._id)}
                     className="btn btn-xs md:btn-sm btn-error"
                   >
-                    <AiOutlineDelete></AiOutlineDelete>
-                    Delete
+                    <AiOutlineDelete /> Delete
                   </button>
                 </td>
               </tr>
@@ -151,12 +158,20 @@ const ManageScholarship = () => {
         </table>
       </div>
 
-      {/* You can open the modal using document.getElementById('ID').showModal() method */}
-
-      <dialog id="my_modal_4" ref={modalRef} className="modal">        
-        <div className="modal-box w-11/12 max-w-5xl">
-          <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow">
-            <h2 className="text-2xl font-bold mb-6 text-center text-indigo-700">
+      {/* Modal */}
+      <dialog id="my_modal_4" ref={modalRef} className="modal">
+        <div
+          className="modal-box w-11/12 max-w-5xl"
+          style={{
+            backgroundColor: colors[theme].bgCard,
+            color: colors[theme].textPrimary,
+          }}
+        >
+          <div className="max-w-4xl mx-auto p-6 rounded-lg shadow">
+            <h2
+              className="text-2xl font-bold mb-6 text-center"
+              style={{ color: colors[theme].primary }}
+            >
               Update Scholarship
             </h2>
 
@@ -166,192 +181,356 @@ const ManageScholarship = () => {
             >
               {/* Scholarship Name */}
               <div>
-                <label className="label font-medium">Scholarship Name</label>
+                <label
+                  className="label font-medium"
+                  style={{ color: colors[theme].textPrimary }}
+                >
+                  Scholarship Name
+                </label>
                 <input
                   type="text"
                   {...register("scholarshipName")}
                   defaultValue={selectedScholarship?.scholarshipName}
                   className="input input-bordered w-full"
                   placeholder="Enter scholarship name"
+                  style={{
+                    backgroundColor: colors[theme].bg,
+                    color: colors[theme].textPrimary,
+                    borderColor: colors[theme].border,
+                  }}
                 />
-                {/* {errors.scholarshipName && (
-                <p className="text-red-500 text-sm">This field is required</p>
-              )} */}
               </div>
 
               {/* University Name */}
               <div>
-                <label className="label font-medium">University Name</label>
+                <label
+                  className="label font-medium"
+                  style={{ color: colors[theme].textPrimary }}
+                >
+                  University Name
+                </label>
                 <input
                   type="text"
                   {...register("universityName")}
-                  className="input input-bordered w-full"
                   defaultValue={selectedScholarship?.universityName}
+                  className="input input-bordered w-full"
                   placeholder="Enter university name"
+                  style={{
+                    backgroundColor: colors[theme].bg,
+                    color: colors[theme].textPrimary,
+                    borderColor: colors[theme].border,
+                  }}
                 />
               </div>
 
+              {/* Photo */}
               <div className="flex flex-col">
-                {/* Image */}
-                <label className="label">Photo</label>
+                <label
+                  className="label"
+                  style={{ color: colors[theme].textPrimary }}
+                >
+                  Photo
+                </label>
                 <input
                   type="file"
                   {...register("photo")}
                   className="file-input w-full"
                 />
-                {/* {errors.photo?.type === "required" && (
-                <p className="text-red-500">Photo is required.</p>
-              )} */}
               </div>
 
               {/* Country */}
               <div>
-                <label className="label font-medium">Country</label>
+                <label
+                  className="label font-medium"
+                  style={{ color: colors[theme].textPrimary }}
+                >
+                  Country
+                </label>
                 <input
                   type="text"
                   {...register("country")}
+                  defaultValue={selectedScholarship?.country}
                   className="input input-bordered w-full"
-                  defaultValue={selectedScholarship?.universityName}
                   placeholder="Enter country"
+                  style={{
+                    backgroundColor: colors[theme].bg,
+                    color: colors[theme].textPrimary,
+                    borderColor: colors[theme].border,
+                  }}
                 />
               </div>
 
               {/* City */}
               <div>
-                <label className="label font-medium">City</label>
+                <label
+                  className="label font-medium"
+                  style={{ color: colors[theme].textPrimary }}
+                >
+                  City
+                </label>
                 <input
                   type="text"
                   {...register("city")}
-                  className="input input-bordered w-full"
                   defaultValue={selectedScholarship?.city}
+                  className="input input-bordered w-full"
                   placeholder="Enter city"
+                  style={{
+                    backgroundColor: colors[theme].bg,
+                    color: colors[theme].textPrimary,
+                    borderColor: colors[theme].border,
+                  }}
                 />
               </div>
 
               {/* World Rank */}
               <div>
-                <label className="label font-medium">World Rank</label>
+                <label
+                  className="label font-medium"
+                  style={{ color: colors[theme].textPrimary }}
+                >
+                  World Rank
+                </label>
                 <input
                   type="number"
                   {...register("worldRank")}
-                  className="input input-bordered w-full"
                   defaultValue={selectedScholarship?.worldRank}
+                  className="input input-bordered w-full"
                   placeholder="Enter world rank"
+                  style={{
+                    backgroundColor: colors[theme].bg,
+                    color: colors[theme].textPrimary,
+                    borderColor: colors[theme].border,
+                  }}
                 />
               </div>
 
               {/* Subject Category */}
               <div>
-                <label className="label font-medium">Subject Category</label>
+                <label
+                  className="label font-medium"
+                  style={{ color: colors[theme].textPrimary }}
+                >
+                  Subject Category
+                </label>
                 <input
                   type="text"
                   {...register("subjectCategory")}
-                  className="input input-bordered w-full"
                   defaultValue={selectedScholarship?.subjectCategory}
+                  className="input input-bordered w-full"
                   placeholder="Enter subject category"
+                  style={{
+                    backgroundColor: colors[theme].bg,
+                    color: colors[theme].textPrimary,
+                    borderColor: colors[theme].border,
+                  }}
                 />
               </div>
 
               {/* Scholarship Category */}
               <div>
-                <label className="label font-medium">
+                <label
+                  className="label font-medium"
+                  style={{ color: colors[theme].textPrimary }}
+                >
                   Scholarship Category
                 </label>
                 <input
                   type="text"
                   {...register("scholarshipCategory")}
-                  className="input input-bordered w-full"
                   defaultValue={selectedScholarship?.scholarshipCategory}
+                  className="input input-bordered w-full"
                   placeholder="Enter scholarship category"
+                  style={{
+                    backgroundColor: colors[theme].bg,
+                    color: colors[theme].textPrimary,
+                    borderColor: colors[theme].border,
+                  }}
                 />
               </div>
 
               {/* Degree */}
               <div>
-                <label className="label font-medium">Degree</label>
+                <label
+                  className="label font-medium"
+                  style={{ color: colors[theme].textPrimary }}
+                >
+                  Degree
+                </label>
                 <input
                   type="text"
                   {...register("degree")}
-                  className="input input-bordered w-full"
                   defaultValue={selectedScholarship?.degree}
+                  className="input input-bordered w-full"
                   placeholder="Enter degree"
+                  style={{
+                    backgroundColor: colors[theme].bg,
+                    color: colors[theme].textPrimary,
+                    borderColor: colors[theme].border,
+                  }}
                 />
               </div>
 
               {/* Tuition Fees */}
               <div>
-                <label className="label font-medium">
+                <label
+                  className="label font-medium"
+                  style={{ color: colors[theme].textPrimary }}
+                >
                   Tuition Fees <span className="text-gray-400">(optional)</span>
                 </label>
                 <input
                   type="number"
                   {...register("tuitionFees")}
-                  className="input input-bordered w-full"
                   defaultValue={selectedScholarship?.tuitionFees}
+                  className="input input-bordered w-full"
                   placeholder="Enter tuition fees"
+                  style={{
+                    backgroundColor: colors[theme].bg,
+                    color: colors[theme].textPrimary,
+                    borderColor: colors[theme].border,
+                  }}
                 />
               </div>
 
               {/* Application Fees */}
               <div>
-                <label className="label font-medium">Application Fees</label>
+                <label
+                  className="label font-medium"
+                  style={{ color: colors[theme].textPrimary }}
+                >
+                  Application Fees
+                </label>
                 <input
                   type="number"
                   {...register("applicationFees")}
-                  className="input input-bordered w-full"
                   defaultValue={selectedScholarship?.applicationFees}
+                  className="input input-bordered w-full"
                   placeholder="Enter application fees"
+                  style={{
+                    backgroundColor: colors[theme].bg,
+                    color: colors[theme].textPrimary,
+                    borderColor: colors[theme].border,
+                  }}
                 />
               </div>
 
               {/* Service Charge */}
               <div>
-                <label className="label font-medium">Service Charge</label>
+                <label
+                  className="label font-medium"
+                  style={{ color: colors[theme].textPrimary }}
+                >
+                  Service Charge
+                </label>
                 <input
                   type="number"
                   {...register("serviceCharge")}
-                  className="input input-bordered w-full"
                   defaultValue={selectedScholarship?.serviceCharge}
+                  className="input input-bordered w-full"
                   placeholder="Enter service charge"
+                  style={{
+                    backgroundColor: colors[theme].bg,
+                    color: colors[theme].textPrimary,
+                    borderColor: colors[theme].border,
+                  }}
                 />
               </div>
 
               {/* Deadline */}
               <div>
-                <label className="label font-medium">Deadline</label>
+                <label
+                  className="label font-medium"
+                  style={{ color: colors[theme].textPrimary }}
+                >
+                  Deadline
+                </label>
                 <input
                   type="date"
                   {...register("deadline")}
                   defaultValue={selectedScholarship?.deadline}
                   className="input input-bordered w-full"
+                  style={{
+                    backgroundColor: colors[theme].bg,
+                    color: colors[theme].textPrimary,
+                    borderColor: colors[theme].border,
+                  }}
                 />
               </div>
 
               {/* Post Date */}
               <div>
-                <label className="label font-medium">Post Date</label>
+                <label
+                  className="label font-medium"
+                  style={{ color: colors[theme].textPrimary }}
+                >
+                  Post Date
+                </label>
                 <input
                   type="date"
                   {...register("postDate")}
-                  className="input input-bordered w-full"
                   defaultValue={selectedScholarship?.postDate}
+                  className="input input-bordered w-full"
+                  style={{
+                    backgroundColor: colors[theme].bg,
+                    color: colors[theme].textPrimary,
+                    borderColor: colors[theme].border,
+                  }}
                 />
               </div>
 
               {/* User Email */}
               <div className="md:col-span-2">
-                <label className="label font-medium">User Email</label>
+                <label
+                  className="label font-medium"
+                  style={{ color: colors[theme].textPrimary }}
+                >
+                  User Email
+                </label>
                 <input
                   type="email"
                   {...register("userEmail")}
-                  className="input input-bordered w-full"
                   defaultValue={selectedScholarship?.userEmail}
+                  className="input input-bordered w-full"
                   placeholder="Enter user email"
+                  style={{
+                    backgroundColor: colors[theme].bg,
+                    color: colors[theme].textPrimary,
+                    borderColor: colors[theme].border,
+                  }}
+                />
+              </div>
+
+              {/* Description */}
+              <div className="md:col-span-2">
+                <label
+                  className="label font-medium"
+                  style={{ color: colors[theme].textPrimary }}
+                >
+                  Description
+                </label>
+                <textarea
+                  {...register("description")}
+                  defaultValue={selectedScholarship?.scholarshipDescription}
+                  className="textarea textarea-bordered w-full"
+                  placeholder="Enter description"
+                  rows={4}
+                  style={{
+                    backgroundColor: colors[theme].bg,
+                    color: colors[theme].textPrimary,
+                    borderColor: colors[theme].border,
+                  }}
                 />
               </div>
 
               <div className="modal-action md:col-span-2 mt-4">
-                <button className="btn btn-primary w-full">
+                <button
+                  className="btn btn-primary w-full"
+                  style={{
+                    backgroundColor: colors[theme].primary,
+                    color: "#fff",
+                    borderColor: colors[theme].primaryHover,
+                  }}
+                >
                   Update Scholarship
                 </button>
               </div>
