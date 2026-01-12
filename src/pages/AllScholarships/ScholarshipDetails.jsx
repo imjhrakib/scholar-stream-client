@@ -6,10 +6,12 @@ import useAuth from "../../hooks/useAuth";
 import { FaStar } from "react-icons/fa";
 import Swal from "sweetalert2";
 import useAxios from "../../hooks/useAxios";
+import useTheme from "../../hooks/useTheme";
 
 const ScholarshipDetails = () => {
   const { id } = useParams();
   const { user } = useAuth();
+  const { theme, colors } = useTheme();
   const [scholarship, setScholarship] = useState(null);
   const [reviews, setReviews] = useState([]);
   const axiosSecure = useAxiosSecure();
@@ -21,7 +23,6 @@ const ScholarshipDetails = () => {
       try {
         const res = await axios.get(`/scholarship/${id}`);
         setScholarship(res.data);
-        // Fetch reviews for this scholarship
         const reviewRes = await axios.get(`/reviews/${id}/review`);
         setReviews(reviewRes.data);
       } catch (err) {
@@ -29,7 +30,7 @@ const ScholarshipDetails = () => {
       }
     };
     fetchScholarship();
-  }, [axiosSecure, id]);
+  }, [axios, id]);
 
   if (!scholarship) return <Loading />;
 
@@ -53,55 +54,69 @@ const ScholarshipDetails = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-6 bg-white shadow-lg rounded-xl mt-10 space-y-8">
+    <div
+      className="max-w-6xl mx-auto p-6 mt-10 space-y-8"
+      style={{
+        backgroundColor: colors[theme].bgPage,
+        color: colors[theme].textPrimary,
+      }}
+    >
       {/* Header */}
       <div className="flex flex-col md:flex-row gap-6">
         <img
           src={scholarship.photo}
           alt={scholarship.scholarshipName}
           className="w-full md:w-1/3 rounded-lg object-cover"
+          style={{ border: `1px solid ${colors[theme].border}` }}
         />
         <div className="flex-1 space-y-2">
-          <h1 className="text-4xl font-bold text-gray-900">
+          <h1
+            style={{ color: colors[theme].textPrimary }}
+            className="text-4xl font-bold"
+          >
             {scholarship.scholarshipName}
           </h1>
-          <p className="text-gray-600">
+          <p style={{ color: colors[theme].textSecondary }}>
             <strong>University:</strong> {scholarship.universityName}
           </p>
-          <p className="text-gray-600">
+          <p style={{ color: colors[theme].textSecondary }}>
             <strong>Location:</strong> {scholarship.city}, {scholarship.country}
           </p>
-          <p className="text-gray-600">
+          <p style={{ color: colors[theme].textSecondary }}>
             <strong>World Rank:</strong> {scholarship.worldRank}
           </p>
-          <p className="text-gray-600">
+          <p style={{ color: colors[theme].textSecondary }}>
             <strong>Subject:</strong> {scholarship.subjectCategory}
           </p>
-          <p className="text-gray-600">
+          <p style={{ color: colors[theme].textSecondary }}>
             <strong>Category:</strong> {scholarship.scholarshipCategory}
           </p>
-          <p className="text-gray-600">
+          <p style={{ color: colors[theme].textSecondary }}>
             <strong>Degree:</strong> {scholarship.degree}
           </p>
-          <p className="text-gray-600">
+          <p style={{ color: colors[theme].textSecondary }}>
             <strong>Tuition Fees:</strong> ${scholarship.tuitionFees}
           </p>
-          <p className="text-gray-600">
+          <p style={{ color: colors[theme].textSecondary }}>
             <strong>Application Fees:</strong> ${scholarship.applicationFees}
           </p>
-          <p className="text-gray-600">
+          <p style={{ color: colors[theme].textSecondary }}>
             <strong>Service Charge:</strong> ${scholarship.serviceCharge}
           </p>
-          <p className="text-gray-600">
+          <p style={{ color: colors[theme].textSecondary }}>
             <strong>Deadline:</strong> {scholarship.deadline}
           </p>
-          <p className="text-gray-600">
+          <p style={{ color: colors[theme].textSecondary }}>
             <strong>Posted on:</strong> {scholarship.postDate}
           </p>
 
           <button
             onClick={handleApplication}
-            className="mt-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold shadow hover:shadow-lg hover:scale-105 transition-transform duration-300"
+            className="mt-4 px-6 py-3 rounded-xl font-semibold shadow hover:shadow-lg hover:scale-105 transition-transform duration-300"
+            style={{
+              backgroundColor: colors[theme].primary,
+              color: "#fff",
+            }}
           >
             Apply Now
           </button>
@@ -109,39 +124,69 @@ const ScholarshipDetails = () => {
       </div>
 
       {/* Description */}
-      <div className="bg-gray-50 p-6 rounded-xl shadow-inner">
+      <div
+        className="p-6 rounded-xl shadow-inner"
+        style={{
+          backgroundColor: colors[theme].bgCard,
+          color: colors[theme].textPrimary,
+        }}
+      >
         <h2 className="text-2xl font-bold mb-4">Scholarship Description</h2>
-        <p className="text-gray-700 whitespace-pre-line">
+        <p
+          style={{ color: colors[theme].textSecondary, whiteSpace: "pre-line" }}
+        >
           {scholarship.scholarshipDescription}
         </p>
       </div>
 
       {/* Reviews */}
-      <div className="bg-gray-50 p-6 rounded-xl shadow-inner space-y-4">
+      <div
+        className="p-6 rounded-xl shadow-inner space-y-4"
+        style={{
+          backgroundColor: colors[theme].bgCard,
+          color: colors[theme].textPrimary,
+        }}
+      >
         <h2 className="text-2xl font-bold mb-4">Reviews</h2>
+        {reviews.length === 0 && (
+          <p style={{ color: colors[theme].textSecondary }}>No reviews yet.</p>
+        )}
         {reviews.map((review) => (
           <div
             key={review._id}
-            className="flex gap-4 border-b border-gray-200 pb-4"
+            className="flex gap-4 border-b pb-4"
+            style={{ borderColor: colors[theme].border }}
           >
             <img
               src={review.photo}
               alt={review.userName}
               className="w-12 h-12 rounded-full object-cover"
+              style={{ border: `1px solid ${colors[theme].border}` }}
             />
             <div className="flex-1">
               <div className="flex items-center justify-between mb-1">
-                <p className="font-semibold text-gray-800">{review.userName}</p>
+                <p
+                  style={{ color: colors[theme].textPrimary, fontWeight: 600 }}
+                >
+                  {review.userName}
+                </p>
                 <div className="flex items-center">
                   {[...Array(Number(review.rating))].map((_, i) => (
-                    <FaStar key={i} className="text-yellow-400" />
+                    <FaStar key={i} style={{ color: "#FACC15" }} />
                   ))}
                 </div>
               </div>
-              <p className="text-gray-500 text-sm">
+              <p
+                style={{
+                  color: colors[theme].textSecondary,
+                  fontSize: "0.85rem",
+                }}
+              >
                 {new Date(review.createdAt).toLocaleDateString()}
               </p>
-              <p className="text-gray-600">{review.comment}</p>
+              <p style={{ color: colors[theme].textSecondary }}>
+                {review.comment}
+              </p>
             </div>
           </div>
         ))}
