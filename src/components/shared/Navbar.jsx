@@ -65,35 +65,38 @@ const Navbar = () => {
   // Navbar links
   const links = (
     <>
-      {["/", "/scholarships", "/about", "/contact"].map((path, i) => {
-        const name =
-          path === "/"
-            ? "Home"
-            : path
-                .replace("/", "")
-                .replace("-", " ")
-                .replace(/\b\w/g, (l) => l.toUpperCase());
-        return (
-          <li key={i} style={{ fontWeight: 600 }}>
-            <NavLink
-              to={path}
-              onClick={closeMobile}
-              style={({ isActive }) => ({
-                color: isActive
-                  ? colors[theme].primary
-                  : colors[theme].textPrimary,
-                borderBottom: isActive
-                  ? `2px solid ${colors[theme].primary}`
-                  : "2px solid transparent",
-                paddingBottom: "2px",
-                transition: "color 0.3s",
-              })}
-            >
-              {name}
-            </NavLink>
-          </li>
-        );
-      })}
+      <li style={{ fontWeight: 600 }}>
+        <NavLink
+          to={"/"}
+          onClick={closeMobile}
+          style={({ isActive }) => ({
+            color: isActive ? colors[theme].primary : colors[theme].textPrimary,
+            borderBottom: isActive
+              ? `2px solid ${colors[theme].primary}`
+              : "2px solid transparent",
+            paddingBottom: "2px",
+            transition: "color 0.3s",
+          })}
+        >
+          Home
+        </NavLink>
+      </li>
+      <li style={{ fontWeight: 600 }}>
+        <NavLink
+          to={"/scholarships"}
+          onClick={closeMobile}
+          style={({ isActive }) => ({
+            color: isActive ? colors[theme].primary : colors[theme].textPrimary,
+            borderBottom: isActive
+              ? `2px solid ${colors[theme].primary}`
+              : "2px solid transparent",
+            paddingBottom: "2px",
+            transition: "color 0.3s",
+          })}
+        >
+          Scholarships
+        </NavLink>
+      </li>
       {user && (
         <li style={{ fontWeight: 600 }}>
           <NavLink
@@ -114,6 +117,38 @@ const Navbar = () => {
           </NavLink>
         </li>
       )}
+      <li style={{ fontWeight: 600 }}>
+        <NavLink
+          to={"/about"}
+          onClick={closeMobile}
+          style={({ isActive }) => ({
+            color: isActive ? colors[theme].primary : colors[theme].textPrimary,
+            borderBottom: isActive
+              ? `2px solid ${colors[theme].primary}`
+              : "2px solid transparent",
+            paddingBottom: "2px",
+            transition: "color 0.3s",
+          })}
+        >
+          About
+        </NavLink>
+      </li>
+      <li style={{ fontWeight: 600 }}>
+        <NavLink
+          to={"/contact"}
+          onClick={closeMobile}
+          style={({ isActive }) => ({
+            color: isActive ? colors[theme].primary : colors[theme].textPrimary,
+            borderBottom: isActive
+              ? `2px solid ${colors[theme].primary}`
+              : "2px solid transparent",
+            paddingBottom: "2px",
+            transition: "color 0.3s",
+          })}
+        >
+          Contact
+        </NavLink>
+      </li>
     </>
   );
 
@@ -222,13 +257,13 @@ const Navbar = () => {
                   <NavLink
                     to="/dashboard"
                     onClick={() => setProfileOpen(false)}
-                    className="block px-4 py-2 text-sm"
+                    className="block px-4 py-2 text-sm hover:bg-green-600"
                   >
                     Dashboard
                   </NavLink>
                   <button
                     onClick={handleLogOut}
-                    className="w-full text-left px-4 py-2 text-sm text-red-500"
+                    className="w-full text-left px-4 py-2 text-sm text-red-500 cursor-pointer hover:bg-red-100"
                   >
                     Logout
                   </button>
