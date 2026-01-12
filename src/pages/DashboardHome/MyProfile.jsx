@@ -2,12 +2,39 @@ import React from "react";
 import useAuth from "../../hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
-import useTheme from "../../hooks/useTheme"; // import theme hook
+import useTheme from "../../hooks/useTheme";
+import Swal from "sweetalert2";
 
 const MyProfile = () => {
   const { user, logOut } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const { theme, colors } = useTheme(); // get theme & colors
+  const { theme, colors } = useTheme();
+  const handleLogOut = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You will be logged out.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#438A7A",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, log me out!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logOut().then(() => {
+          Swal.fire({
+            icon: "success",
+            title: "Logged out",
+            text: "You have been logged out successfully",
+            timer: 1500,
+            showConfirmButton: false,
+          });
+          setProfileOpen(false);
+          setMobileOpen(false);
+          navigate("/");
+        });
+      }
+    });
+  };
 
   const { data: profile = [] } = useQuery({
     queryKey: ["myProfile", user?.email],
@@ -138,7 +165,7 @@ const MyProfile = () => {
       <div className="mt-6 flex gap-4 justify-center">
         <button className="btn btn-primary px-6">Edit Profile</button>
         <button className="btn btn-warning px-6">Change Password</button>
-        <button onClick={logOut} className="btn btn-error px-6">
+        <button onClick={handleLogOut} className="btn btn-error px-6">
           Logout
         </button>
       </div>

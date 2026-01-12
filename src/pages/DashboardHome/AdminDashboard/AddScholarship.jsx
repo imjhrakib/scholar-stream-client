@@ -3,8 +3,10 @@ import { useForm } from "react-hook-form";
 import useAxios from "../../../hooks/useAxios";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import useTheme from "../../../hooks/useTheme";
 
 const AddScholarship = () => {
+  const { theme, colors } = useTheme();
   const axios = useAxios();
   const axiosSecure = useAxiosSecure();
   const {
@@ -61,8 +63,17 @@ const AddScholarship = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow">
-      <h2 className="text-2xl font-bold mb-6 text-center text-indigo-700">
+    <div
+      className="max-w-4xl mx-auto p-6 rounded-lg shadow"
+      style={{
+        backgroundColor: colors[theme].bgCard,
+        color: colors[theme].textPrimary,
+      }}
+    >
+      <h2
+        className="text-2xl font-bold mb-6 text-center"
+        style={{ color: colors[theme].primary }}
+      >
         Add Scholarship
       </h2>
 
@@ -72,12 +83,22 @@ const AddScholarship = () => {
       >
         {/* Scholarship Name */}
         <div>
-          <label className="label font-medium">Scholarship Name</label>
+          <label
+            className="label font-medium"
+            style={{ color: colors[theme].textPrimary }}
+          >
+            Scholarship Name
+          </label>
           <input
             type="text"
             {...register("scholarshipName", { required: true })}
             className="input input-bordered w-full"
             placeholder="Enter scholarship name"
+            style={{
+              backgroundColor: colors[theme].bg,
+              color: colors[theme].textPrimary,
+              borderColor: colors[theme].border,
+            }}
           />
           {errors.scholarshipName && (
             <p className="text-red-500 text-sm">This field is required</p>
@@ -86,22 +107,39 @@ const AddScholarship = () => {
 
         {/* University Name */}
         <div>
-          <label className="label font-medium">University Name</label>
+          <label
+            className="label font-medium"
+            style={{ color: colors[theme].textPrimary }}
+          >
+            University Name
+          </label>
           <input
             type="text"
             {...register("universityName", { required: true })}
             className="input input-bordered w-full"
             placeholder="Enter university name"
+            style={{
+              backgroundColor: colors[theme].bg,
+              color: colors[theme].textPrimary,
+              borderColor: colors[theme].border,
+            }}
           />
         </div>
 
+        {/* Image */}
         <div className="flex flex-col">
-          {/* Image */}
-          <label className="label">Photo</label>
+          <label className="label" style={{ color: colors[theme].textPrimary }}>
+            Photo
+          </label>
           <input
             type="file"
             {...register("photo", { required: true })}
             className="file-input w-full"
+            style={{
+              backgroundColor: colors[theme].bg,
+              color: colors[theme].textPrimary,
+              borderColor: colors[theme].border,
+            }}
           />
           {errors.photo?.type === "required" && (
             <p className="text-red-500">Photo is required.</p>
@@ -110,73 +148,136 @@ const AddScholarship = () => {
 
         {/* Country */}
         <div>
-          <label className="label font-medium">Country</label>
+          <label
+            className="label font-medium"
+            style={{ color: colors[theme].textPrimary }}
+          >
+            Country
+          </label>
           <input
             type="text"
             {...register("country", { required: true })}
             className="input input-bordered w-full"
             placeholder="Enter country"
+            style={{
+              backgroundColor: colors[theme].bg,
+              color: colors[theme].textPrimary,
+              borderColor: colors[theme].border,
+            }}
           />
         </div>
 
         {/* City */}
         <div>
-          <label className="label font-medium">City</label>
+          <label
+            className="label font-medium"
+            style={{ color: colors[theme].textPrimary }}
+          >
+            City
+          </label>
           <input
             type="text"
             {...register("city", { required: true })}
             className="input input-bordered w-full"
             placeholder="Enter city"
+            style={{
+              backgroundColor: colors[theme].bg,
+              color: colors[theme].textPrimary,
+              borderColor: colors[theme].border,
+            }}
           />
         </div>
 
         {/* World Rank */}
         <div>
-          <label className="label font-medium">World Rank</label>
+          <label
+            className="label font-medium"
+            style={{ color: colors[theme].textPrimary }}
+          >
+            World Rank
+          </label>
           <input
             type="number"
             {...register("worldRank")}
             className="input input-bordered w-full"
             placeholder="Enter world rank"
+            style={{
+              backgroundColor: colors[theme].bg,
+              color: colors[theme].textPrimary,
+              borderColor: colors[theme].border,
+            }}
           />
         </div>
 
         {/* Subject Category */}
         <div>
-          <label className="label font-medium">Subject Category</label>
+          <label
+            className="label font-medium"
+            style={{ color: colors[theme].textPrimary }}
+          >
+            Subject Category
+          </label>
           <input
             type="text"
             {...register("subjectCategory", { required: true })}
             className="input input-bordered w-full"
             placeholder="Enter subject category"
+            style={{
+              backgroundColor: colors[theme].bg,
+              color: colors[theme].textPrimary,
+              borderColor: colors[theme].border,
+            }}
           />
         </div>
 
         {/* Scholarship Category */}
         <div>
-          <label className="label font-medium">Scholarship Category</label>
+          <label
+            className="label font-medium"
+            style={{ color: colors[theme].textPrimary }}
+          >
+            Scholarship Category
+          </label>
           <input
             type="text"
             {...register("scholarshipCategory", { required: true })}
             className="input input-bordered w-full"
             placeholder="Enter scholarship category"
+            style={{
+              backgroundColor: colors[theme].bg,
+              color: colors[theme].textPrimary,
+              borderColor: colors[theme].border,
+            }}
           />
         </div>
 
         {/* Degree */}
         <div>
-          <label className="label font-medium">Degree</label>
+          <label
+            className="label font-medium"
+            style={{ color: colors[theme].textPrimary }}
+          >
+            Degree
+          </label>
           <input
             type="text"
             {...register("degree", { required: true })}
             className="input input-bordered w-full"
             placeholder="Enter degree"
+            style={{
+              backgroundColor: colors[theme].bg,
+              color: colors[theme].textPrimary,
+              borderColor: colors[theme].border,
+            }}
           />
         </div>
 
         {/* Tuition Fees */}
         <div>
-          <label className="label font-medium">
+          <label
+            className="label font-medium"
+            style={{ color: colors[theme].textPrimary }}
+          >
             Tuition Fees <span className="text-gray-400">(optional)</span>
           </label>
           <input
@@ -184,69 +285,135 @@ const AddScholarship = () => {
             {...register("tuitionFees")}
             className="input input-bordered w-full"
             placeholder="Enter tuition fees"
+            style={{
+              backgroundColor: colors[theme].bg,
+              color: colors[theme].textPrimary,
+              borderColor: colors[theme].border,
+            }}
           />
         </div>
 
         {/* Application Fees */}
         <div>
-          <label className="label font-medium">Application Fees</label>
+          <label
+            className="label font-medium"
+            style={{ color: colors[theme].textPrimary }}
+          >
+            Application Fees
+          </label>
           <input
             type="number"
             {...register("applicationFees", { required: true })}
             className="input input-bordered w-full"
             placeholder="Enter application fees"
+            style={{
+              backgroundColor: colors[theme].bg,
+              color: colors[theme].textPrimary,
+              borderColor: colors[theme].border,
+            }}
           />
         </div>
 
         {/* Service Charge */}
         <div>
-          <label className="label font-medium">Service Charge</label>
+          <label
+            className="label font-medium"
+            style={{ color: colors[theme].textPrimary }}
+          >
+            Service Charge
+          </label>
           <input
             type="number"
             {...register("serviceCharge", { required: true })}
             className="input input-bordered w-full"
             placeholder="Enter service charge"
+            style={{
+              backgroundColor: colors[theme].bg,
+              color: colors[theme].textPrimary,
+              borderColor: colors[theme].border,
+            }}
           />
         </div>
 
         {/* Deadline */}
         <div>
-          <label className="label font-medium">Deadline</label>
+          <label
+            className="label font-medium"
+            style={{ color: colors[theme].textPrimary }}
+          >
+            Deadline
+          </label>
           <input
             type="date"
             {...register("deadline", { required: true })}
             className="input input-bordered w-full"
+            style={{
+              backgroundColor: colors[theme].bg,
+              color: colors[theme].textPrimary,
+              borderColor: colors[theme].border,
+            }}
           />
         </div>
 
         {/* Post Date */}
         <div>
-          <label className="label font-medium">Post Date</label>
+          <label
+            className="label font-medium"
+            style={{ color: colors[theme].textPrimary }}
+          >
+            Post Date
+          </label>
           <input
             type="date"
             {...register("postDate", { required: true })}
             className="input input-bordered w-full"
+            style={{
+              backgroundColor: colors[theme].bg,
+              color: colors[theme].textPrimary,
+              borderColor: colors[theme].border,
+            }}
           />
         </div>
 
         {/* User Email */}
         <div className="md:col-span-2">
-          <label className="label font-medium">User Email</label>
+          <label
+            className="label font-medium"
+            style={{ color: colors[theme].textPrimary }}
+          >
+            User Email
+          </label>
           <input
             type="email"
             {...register("userEmail", { required: true })}
             className="input input-bordered w-full"
             placeholder="Enter user email"
+            style={{
+              backgroundColor: colors[theme].bg,
+              color: colors[theme].textPrimary,
+              borderColor: colors[theme].border,
+            }}
           />
         </div>
-        {/* Description  */}
-        <div>
-          <label className="label font-medium">Description</label>
+
+        {/* Description */}
+        <div className="md:col-span-2">
+          <label
+            className="label font-medium"
+            style={{ color: colors[theme].textPrimary }}
+          >
+            Description
+          </label>
           <textarea
             {...register("description", { required: true })}
             className="textarea textarea-bordered w-full"
             placeholder="Enter description"
             rows={4}
+            style={{
+              backgroundColor: colors[theme].bg,
+              color: colors[theme].textPrimary,
+              borderColor: colors[theme].border,
+            }}
           />
           {errors.description && (
             <p className="text-red-500 text-sm">This field is required</p>
@@ -254,7 +421,16 @@ const AddScholarship = () => {
         </div>
 
         <div className="md:col-span-2 mt-4">
-          <button className="btn btn-primary w-full">Add Scholarship</button>
+          <button
+            className="btn w-full"
+            style={{
+              backgroundColor: colors[theme].primary,
+              color: "#fff",
+              borderColor: colors[theme].primaryHover,
+            }}
+          >
+            Add Scholarship
+          </button>
         </div>
       </form>
     </div>
