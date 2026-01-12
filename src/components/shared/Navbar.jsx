@@ -1,14 +1,50 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import logo from "../../assets/logo.png";
 import useAuth from "../../hooks/useAuth";
 import { FaMoon, FaSun } from "react-icons/fa";
 import useTheme from "../../hooks/useTheme";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
+  const navigate = useNavigate();
   const { theme, toggleTheme, colors } = useTheme();
+  const handleLogOut = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You will be logged out.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#438A7A",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, log me out!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logOut()
+          .then(() => {
+            setProfileOpen(false); // close dropdown
+            setMobileOpen(false); // close mobile menu if open
+            navigate("/"); // redirect home
+            Swal.fire({
+              icon: "success",
+              title: "Logged out",
+              text: "You have been logged out successfully",
+              timer: 1500,
+              showConfirmButton: false,
+            });
+          })
+          .catch((error) => {
+            Swal.fire({
+              icon: "error",
+              title: "Logout Failed",
+              text: error.message,
+            });
+          });
+      }
+    });
+  };
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -192,7 +228,7 @@ const Navbar = () => {
                     Dashboard
                   </NavLink>
                   <button
-                    onClick={logOut}
+                    onClick={handleLogOut}
                     className="w-full text-left px-4 py-2 text-sm text-red-500"
                   >
                     Logout
