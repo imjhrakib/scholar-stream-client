@@ -274,8 +274,7 @@ const MyApplications = () => {
           </tbody>
         </table>
       </div>
-
-      {/* DETAILS MODAL */}
+    
       {/* DETAILS MODAL */}
       <dialog
         id="details_modal"

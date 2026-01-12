@@ -153,7 +153,7 @@ const ManageScholarship = () => {
 
       {/* You can open the modal using document.getElementById('ID').showModal() method */}
 
-      <dialog id="my_modal_4" ref={modalRef} className="modal">
+      <dialog id="my_modal_4" ref={modalRef} className="modal">        
         <div className="modal-box w-11/12 max-w-5xl">
           <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow">
             <h2 className="text-2xl font-bold mb-6 text-center text-indigo-700">
