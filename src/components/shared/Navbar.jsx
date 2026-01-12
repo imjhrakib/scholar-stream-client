@@ -24,9 +24,9 @@ const Navbar = () => {
       if (result.isConfirmed) {
         logOut()
           .then(() => {
-            setProfileOpen(false); // close dropdown
-            setMobileOpen(false); // close mobile menu if open
-            navigate("/"); // redirect home
+            setProfileOpen(false);
+            setMobileOpen(false);
+            navigate("/");
             Swal.fire({
               icon: "success",
               title: "Logged out",
@@ -190,7 +190,6 @@ const Navbar = () => {
               <FaMoon style={{ color: colors[theme].textPrimary }} />
             )}
           </button>
-
           {/* User / Auth Buttons */}
           {user ? (
             <div ref={dropdownRef} className="relative">

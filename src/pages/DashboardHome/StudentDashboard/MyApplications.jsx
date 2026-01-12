@@ -3,10 +3,11 @@ import useAuth from "../../../hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import Swal from "sweetalert2";
+import useTheme from "../../../hooks/useTheme";
 
 const MyApplications = () => {
+  const { theme, colors } = useTheme();
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const [selectedApplication, setSelectedApplication] = useState(null);
@@ -52,7 +53,6 @@ const MyApplications = () => {
       "/payment-checkout-session",
       paymentInfo
     );
-
     window.location.href = res.data.url;
   };
 
@@ -82,6 +82,7 @@ const MyApplications = () => {
         }
       });
   };
+
   const deleteApplication = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -111,10 +112,7 @@ const MyApplications = () => {
 
   const onSubmit = async (data) => {
     let updatedData = {};
-
-    for (const key in dirtyFields) {
-      updatedData[key] = data[key];
-    }
+    for (const key in dirtyFields) updatedData[key] = data[key];
 
     const res = await axiosSecure.patch(
       `/applications/${editApp._id}`,
@@ -129,15 +127,36 @@ const MyApplications = () => {
   };
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-semibold text-slate-800 mb-4">
+    <div
+      className="p-6"
+      style={{
+        backgroundColor: colors[theme].bg,
+        color: colors[theme].textPrimary,
+      }}
+    >
+      <h2
+        className="text-2xl font-semibold mb-4"
+        style={{ color: colors[theme].textPrimary }}
+      >
         My Applications
       </h2>
 
-      <div className="overflow-x-auto rounded-xl shadow border border-slate-200 bg-white">
+      <div
+        className="overflow-x-auto rounded-xl shadow border"
+        style={{
+          borderColor: colors[theme].border,
+          backgroundColor: colors[theme].bgCard,
+          color: colors[theme].textPrimary,
+        }}
+      >
         <table className="table w-full">
           <thead>
-            <tr className="bg-slate-100 text-slate-700 text-sm">
+            <tr
+              style={{
+                backgroundColor: colors[theme].bgTableHeader,
+                color: colors[theme].textPrimary,
+              }}
+            >
               <th className="text-center py-3">SL</th>
               <th className="text-center">University</th>
               <th className="text-center">City</th>
@@ -148,26 +167,36 @@ const MyApplications = () => {
               <th className="text-center">Actions</th>
             </tr>
           </thead>
-
-          <tbody className="text-slate-700">
+          <tbody style={{ color: colors[theme].textPrimary }}>
             {applications.map((app, index) => (
-              <tr key={app._id} className="hover:bg-slate-50 transition">
+              <tr
+                key={app._id}
+                className="hover:opacity-80 transition"
+                style={{ backgroundColor: colors[theme].bgCard }}
+              >
                 <td className="text-center py-3 font-medium">{index + 1}</td>
                 <td className="text-center">{app.universityName}</td>
                 <td className="text-center">{app.city}</td>
                 <td className="text-center text-slate-500">{app.feedback}</td>
                 <td className="text-center">{app.subjectCategory}</td>
                 <td className="text-center">${app.applicationFees}</td>
-
                 <td className="text-center">
                   <span
-                    className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                      app.status === "pending"
-                        ? "bg-yellow-100 text-yellow-700"
-                        : app.status === "completed"
-                        ? "bg-green-100 text-green-700"
-                        : "bg-slate-100 text-slate-700"
-                    }`}
+                    className={`px-3 py-1 rounded-full text-xs font-semibold`}
+                    style={{
+                      backgroundColor:
+                        app.status === "pending"
+                          ? colors[theme].warningBg
+                          : app.status === "completed"
+                          ? colors[theme].successBg
+                          : colors[theme].bgCard,
+                      color:
+                        app.status === "pending"
+                          ? colors[theme].warning
+                          : app.status === "completed"
+                          ? colors[theme].success
+                          : colors[theme].textPrimary,
+                    }}
                   >
                     {app.status}
                   </span>
@@ -176,7 +205,11 @@ const MyApplications = () => {
                 <td className="flex justify-center flex-wrap gap-2 py-2">
                   <button
                     onClick={() => handleDetails(app._id)}
-                    className="btn btn-sm bg-indigo-500 text-white hover:bg-indigo-600"
+                    className="btn btn-sm"
+                    style={{
+                      backgroundColor: colors[theme].primary,
+                      color: colors[theme].textOnPrimary,
+                    }}
                   >
                     Details
                   </button>
@@ -185,7 +218,11 @@ const MyApplications = () => {
                     <>
                       <button
                         onClick={() => handleEdit(app._id)}
-                        className="btn btn-sm bg-amber-400 hover:bg-amber-500 text-black"
+                        className="btn btn-sm"
+                        style={{
+                          backgroundColor: colors[theme].warning,
+                          color: colors[theme].textOnWarning,
+                        }}
                       >
                         Edit
                       </button>
@@ -193,7 +230,11 @@ const MyApplications = () => {
                       {app.paymentStatus === "unpaid" && (
                         <button
                           onClick={() => handlePay(app)}
-                          className="btn btn-sm bg-emerald-500 text-white hover:bg-emerald-600"
+                          className="btn btn-sm"
+                          style={{
+                            backgroundColor: colors[theme].success,
+                            color: colors[theme].textOnSuccess,
+                          }}
                         >
                           Pay
                         </button>
@@ -201,7 +242,11 @@ const MyApplications = () => {
 
                       <button
                         onClick={() => deleteApplication(app._id)}
-                        className="btn btn-sm bg-red-500 hover:bg-red-600 text-white"
+                        className="btn btn-sm"
+                        style={{
+                          backgroundColor: colors[theme].danger,
+                          color: colors[theme].textOnDanger,
+                        }}
                       >
                         Delete
                       </button>
@@ -214,7 +259,11 @@ const MyApplications = () => {
                         document.getElementById("my_modal_5").showModal();
                         setSelectedApplication(app);
                       }}
-                      className="btn btn-sm bg-purple-500 hover:bg-purple-600 text-white"
+                      className="btn btn-sm"
+                      style={{
+                        backgroundColor: colors[theme].info,
+                        color: colors[theme].textOnInfo,
+                      }}
                     >
                       Add Review
                     </button>
@@ -227,53 +276,50 @@ const MyApplications = () => {
       </div>
 
       {/* DETAILS MODAL */}
-      <dialog id="details_modal" className="modal">
-        <div className="modal-box max-w-4xl">
+      {/* DETAILS MODAL */}
+      <dialog
+        id="details_modal"
+        className="modal"
+        style={{
+          color: theme === "dark" ? "#F9FAFB" : "#1F2937", // light text in dark mode, dark text in light mode
+          backgroundColor: theme === "dark" ? "#1F2937" : "#FFFFFF", // dark bg for dark mode, white for light
+          borderColor: theme === "dark" ? "#374151" : "#E5E7EB", // subtle border based on theme
+        }}
+      >
+        <div
+          className="modal-box max-w-4xl"
+          style={{ backgroundColor: "inherit", color: "inherit" }}
+        >
           {selectedApplication && (
             <div className="space-y-3">
-              <h3 className="text-xl font-semibold text-slate-800 mb-2">
+              <h3
+                className="text-xl font-semibold mb-2"
+                style={{ color: theme === "dark" ? "#F9FAFB" : "#1F2937" }}
+              >
                 Application Details
               </h3>
 
               <table className="table w-full">
-                <tbody className="text-slate-700">
-                  <tr>
-                    <td className="font-semibold">Scholarship</td>
-                    <td>{selectedApplication.scholarshipName}</td>
-                  </tr>
-                  <tr>
-                    <td className="font-semibold">University</td>
-                    <td>{selectedApplication.universityName}</td>
-                  </tr>
-                  <tr>
-                    <td className="font-semibold">City</td>
-                    <td>{selectedApplication.city}</td>
-                  </tr>
-                  <tr>
-                    <td className="font-semibold">Subject</td>
-                    <td>{selectedApplication.subjectCategory}</td>
-                  </tr>
-                  <tr>
-                    <td className="font-semibold">Application Fees</td>
-                    <td>${selectedApplication.applicationFees}</td>
-                  </tr>
-                  <tr>
-                    <td className="font-semibold">Status</td>
-                    <td>{selectedApplication.status}</td>
-                  </tr>
-                  <tr>
-                    <td className="font-semibold">Payment</td>
-                    <td>{selectedApplication.paymentStatus}</td>
-                  </tr>
-                  <tr>
-                    <td className="font-semibold">Created At</td>
-                    <td>
-                      {new Date(selectedApplication.createdAt).toLocaleString(
-                        "en-US",
-                        { dateStyle: "medium", timeStyle: "short" }
-                      )}
-                    </td>
-                  </tr>
+                <tbody>
+                  {Object.entries(selectedApplication).map(([key, value]) => (
+                    <tr key={key}>
+                      <td
+                        className="font-semibold"
+                        style={{
+                          color: theme === "dark" ? "#E5E7EB" : "#374151",
+                        }}
+                      >
+                        {key}
+                      </td>
+                      <td
+                        style={{
+                          color: theme === "dark" ? "#D1D5DB" : "#1F2937",
+                        }}
+                      >
+                        {value}
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -285,9 +331,16 @@ const MyApplications = () => {
       </dialog>
 
       {/* EDIT MODAL */}
-      <dialog ref={editModalRef} className="modal">
+      <dialog
+        ref={editModalRef}
+        className="modal"
+        style={{
+          color: colors[theme].textPrimary,
+          backgroundColor: colors[theme].bgCard,
+        }}
+      >
         <div className="modal-box max-w-4xl">
-          <h2 className="text-xl font-semibold text-center mb-4 text-slate-800">
+          <h2 className="text-xl font-semibold text-center mb-4">
             Edit Application
           </h2>
 
@@ -303,6 +356,11 @@ const MyApplications = () => {
                   {...register("scholarshipName")}
                   defaultValue={editApp.scholarshipName}
                   className="input input-bordered w-full"
+                  style={{
+                    backgroundColor: colors[theme].bg,
+                    color: colors[theme].textPrimary,
+                    borderColor: colors[theme].border,
+                  }}
                 />
               </div>
 
@@ -313,6 +371,11 @@ const MyApplications = () => {
                   {...register("universityName")}
                   defaultValue={editApp.universityName}
                   className="input input-bordered w-full"
+                  style={{
+                    backgroundColor: colors[theme].bg,
+                    color: colors[theme].textPrimary,
+                    borderColor: colors[theme].border,
+                  }}
                 />
               </div>
 
@@ -323,6 +386,11 @@ const MyApplications = () => {
                   {...register("city")}
                   defaultValue={editApp.city}
                   className="input input-bordered w-full"
+                  style={{
+                    backgroundColor: colors[theme].bg,
+                    color: colors[theme].textPrimary,
+                    borderColor: colors[theme].border,
+                  }}
                 />
               </div>
 
@@ -333,11 +401,23 @@ const MyApplications = () => {
                   {...register("applicationFees")}
                   defaultValue={editApp.applicationFees}
                   className="input input-bordered w-full"
+                  style={{
+                    backgroundColor: colors[theme].bg,
+                    color: colors[theme].textPrimary,
+                    borderColor: colors[theme].border,
+                  }}
                 />
               </div>
 
               <div className="modal-action md:col-span-2">
-                <button type="submit" className="btn btn-primary w-full">
+                <button
+                  type="submit"
+                  className="btn w-full"
+                  style={{
+                    backgroundColor: colors[theme].primary,
+                    color: colors[theme].textOnPrimary,
+                  }}
+                >
                   Update Application
                 </button>
               </div>
@@ -346,40 +426,57 @@ const MyApplications = () => {
         </div>
       </dialog>
 
-      {/* Open the modal using document.getElementById('ID').showModal() method */}
-      <dialog ref={modalRef} id="my_modal_5" className="modal">
+      {/* ADD REVIEW MODAL */}
+      <dialog
+        ref={modalRef}
+        id="my_modal_5"
+        className="modal"
+        style={{
+          color: colors[theme].textPrimary,
+          backgroundColor: colors[theme].bgCard,
+        }}
+      >
         <div className="modal-box">
           <h2 className="text-xl font-semibold mb-4">Add a Review</h2>
 
-          {/* Star Rating */}
           <label className="block mb-2 font-medium">Rating</label>
           <select
-            className="border border-gray-300 rounded px-3 py-2 w-full mb-4 bg-white"
+            className="border rounded px-3 py-2 w-full mb-4"
             value={star}
             onChange={(e) => setStar(e.target.value)}
+            style={{
+              backgroundColor: colors[theme].bg,
+              color: colors[theme].textPrimary,
+              borderColor: colors[theme].border,
+            }}
           >
             <option value="">Select Rating</option>
-            <option value="1">⭐ 1</option>
-            <option value="2">⭐ 2</option>
-            <option value="3">⭐ 3</option>
-            <option value="4">⭐ 4</option>
-            <option value="5">⭐ 5</option>
+            {[1, 2, 3, 4, 5].map((s) => (
+              <option key={s} value={s}>{`⭐ ${s}`}</option>
+            ))}
           </select>
 
-          {/* Comment */}
           <label className="block mb-2 font-medium">Comment</label>
           <textarea
             placeholder="Share your thoughts..."
-            className="textarea textarea-accent w-full h-24"
+            className="textarea w-full h-24 mb-4"
             value={comment}
             onChange={(e) => setComment(e.target.value)}
+            style={{
+              backgroundColor: colors[theme].bg,
+              color: colors[theme].textPrimary,
+              borderColor: colors[theme].border,
+            }}
           ></textarea>
 
-          {/* Submit Button */}
           <div className="modal-action">
             <button
-              className="btn btn-primary"
+              className="btn"
               onClick={() => handleReview(selectedApplication)}
+              style={{
+                backgroundColor: colors[theme].primary,
+                color: colors[theme].textOnPrimary,
+              }}
             >
               Submit
             </button>

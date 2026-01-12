@@ -9,30 +9,49 @@ import {
   AiOutlineHome,
   AiOutlinePlusCircle,
 } from "react-icons/ai";
-import { FaClipboardList, FaStar, FaUsers } from "react-icons/fa";
+import {
+  FaClipboardList,
+  FaMoon,
+  FaStar,
+  FaSun,
+  FaUsers,
+} from "react-icons/fa";
 import useAuth from "../hooks/useAuth";
 import { VscSettings } from "react-icons/vsc";
-import { PiSquareHalfBottomLight } from "react-icons/pi";
 import { MdRateReview } from "react-icons/md";
+import useTheme from "../hooks/useTheme";
 
 const DashboardLayout = () => {
+  const { theme, toggleTheme, colors } = useTheme();
   const { user } = useAuth();
   const { role } = useRole();
   const [clickNav, setClickNav] = useState(false);
 
   return (
-    <div className="drawer lg:drawer-open">
+    <div
+      className="drawer lg:drawer-open"
+      style={{
+        backgroundColor: colors[theme].bg,
+        color: colors[theme].textPrimary,
+      }}
+    >
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
         {/* Navbar */}
-        <nav className="navbar w-full bg-base-300 text-indigo-700 z-50 fixed">
+        <nav
+          className="navbar w-full z-50 fixed"
+          style={{
+            backgroundColor: colors[theme].bgCard,
+            color: colors[theme].textPrimary,
+            borderBottom: `1px solid ${colors[theme].border}`,
+          }}
+        >
           <label
             htmlFor="my-drawer-4"
             aria-label="open sidebar"
             className="btn btn-square btn-ghost"
-            onClick={() => {
-              setClickNav(!clickNav);
-            }}
+            onClick={() => setClickNav(!clickNav)}
+            style={{ color: colors[theme].textPrimary }}
           >
             {/* Sidebar toggle icon */}
             <svg
@@ -51,207 +70,198 @@ const DashboardLayout = () => {
             </svg>
           </label>
 
-          <div className="px-4 text-lg font-semibold">
-            <span>ScholarStream Control Panel</span>
+          <div className="px-4 text-lg font-semibold flex items-center gap-4">
+            <span className="mr-5" style={{ color: colors[theme].textPrimary }}>
+              ScholarStream Control Panel
+            </span>
+
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              style={{
+                borderColor: colors[theme].border,
+                backgroundColor: colors[theme].bgCard,
+              }}
+              className="p-2 rounded-full border transition-all"
+              title={
+                theme === "dark"
+                  ? "Switch to Light Mode"
+                  : "Switch to Dark Mode"
+              }
+            >
+              {theme === "dark" ? (
+                <FaSun style={{ color: colors[theme].primary }} />
+              ) : (
+                <FaMoon style={{ color: colors[theme].textPrimary }} />
+              )}
+            </button>
           </div>
         </nav>
-        {/* Page content here */}
-        <div className="p-4 mt-14">
+
+        {/* Page content */}
+        <div
+          className="p-4 mt-14"
+          style={{
+            backgroundColor: colors[theme].bg,
+            color: colors[theme].textPrimary,
+          }}
+        >
           <Outlet />
         </div>
       </div>
 
-      <div className="drawer-side is-drawer-close:overflow-visible">
+      {/* Sidebar */}
+      <div
+        className="drawer-side is-drawer-close:overflow-visible"
+        style={{
+          backgroundColor: colors[theme].bgCard,
+          color: colors[theme].textPrimary,
+        }}
+      >
         <label
           htmlFor="my-drawer-4"
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <div className="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-18 is-drawer-open:w-64">
-          {/* Sidebar content here */}
-          <ul className="menu w-full grow text-slate-800 font-semibold">
-            {/* My Profile*/}
+        <div className="flex min-h-full flex-col items-start">
+          <ul className="menu w-full grow font-semibold">
+            {/* My Profile */}
             <li>
               <Link
                 to={"/dashboard/my-profile"}
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                 data-tip="Profile"
               >
-                {/* profile */}
                 <div className="flex items-center gap-2">
                   <img
                     src={user?.photoURL}
                     alt="User"
-                    className={`rounded-full border border-blue-600 cursor-pointer transition-all duration-300
-                  ${clickNav ? "w-10 h-10" : "w-8 h-8"}`}
+                    className={`rounded-full border cursor-pointer transition-all duration-300 ${
+                      clickNav ? "w-10 h-10" : "w-8 h-8"
+                    }`}
+                    style={{ borderColor: colors[theme].primary }}
                   />
                   {clickNav && (
-                    <span className="text-xl font-semibold transition-all duration-300">
+                    <span
+                      className="text-xl font-semibold transition-all duration-300"
+                      style={{ color: colors[theme].textPrimary }}
+                    >
                       {user?.displayName}
                     </span>
                   )}
                 </div>
               </Link>
             </li>
+
+            {/* Links */}
             <li>
-              <Link
-                to={"/"}
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Homepage"
-              >
-                {/* Home icon */}
+              <Link to={"/"}>
                 <AiOutlineHome
                   size={24}
-                  className="text-sky-600"
-                ></AiOutlineHome>
+                  style={{ color: colors[theme].primary }}
+                />
                 <span className="is-drawer-close:hidden">Home</span>
               </Link>
             </li>
             <li>
-              <Link
-                onClick={() => {
-                  setDrawerState(false);
-                }}
-                to={"/dashboard"}
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Dashboard Home"
-              >
-                {/* Home icon */}
+              <Link to={"/dashboard"}>
                 <AiOutlineDashboard
                   size={24}
-                  className="text-indigo-600"
-                ></AiOutlineDashboard>
+                  style={{ color: colors[theme].primary }}
+                />
                 <span className="is-drawer-close:hidden">Dashboard Home</span>
               </Link>
             </li>
-            {/* for admin */}
+
+            {/* Admin Links */}
             {role === "admin" && (
               <>
                 <li>
-                  <Link
-                    to={"/dashboard/add-scholarship"}
-                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Add Scholarship"
-                  >
+                  <Link to={"/dashboard/add-scholarship"}>
                     <AiOutlinePlusCircle
-                      className="text-emerald-600"
                       size={24}
+                      style={{ color: colors[theme].success }}
                     />
                     <span className="is-drawer-close:hidden">
                       Add Scholarship
                     </span>
                   </Link>
                 </li>
-                {/* manage scholarship */}
                 <li>
-                  <Link
-                    to={"/dashboard/manage-scholarship"}
-                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Manage Scholarship"
-                  >
-                    <AiOutlineBook size={24} className="text-amber-600" />
+                  <Link to={"/dashboard/manage-scholarship"}>
+                    <AiOutlineBook
+                      size={24}
+                      style={{ color: colors[theme].warning }}
+                    />
                     <span className="is-drawer-close:hidden">
                       Manage Scholarship
                     </span>
                   </Link>
                 </li>
-                {/* manage users */}
                 <li>
-                  <Link
-                    to={"/dashboard/manage-users"}
-                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Manage User"
-                  >
-                    <FaUsers size={24} className="text-purple-600" />
+                  <Link to={"/dashboard/manage-users"}>
+                    <FaUsers size={24} style={{ color: colors[theme].info }} />
                     <span className="is-drawer-close:hidden">Manage User</span>
                   </Link>
                 </li>
-                {/* analytics */}
                 <li>
-                  <Link
-                    to={"/dashboard/analytics"}
-                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Analytics"
-                  >
-                    <AiOutlineBarChart size={24} className="text-rose-600" />
+                  <Link to={"/dashboard/analytics"}>
+                    <AiOutlineBarChart
+                      size={24}
+                      style={{ color: colors[theme].danger }}
+                    />
                     <span className="is-drawer-close:hidden">Analytics</span>
                   </Link>
                 </li>
               </>
             )}
 
+            {/* Student Links */}
             {role === "student" && (
               <>
                 <li>
-                  <Link
-                    onClick={() => {
-                      setDrawerState(false);
-                    }}
-                    to={"/dashboard/my-application"}
-                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="My Applications"
-                  >
-                    {/* Home icon */}
+                  <Link to={"/dashboard/my-application"}>
                     <FaClipboardList
                       size={24}
-                      className="text-indigo-600"
-                    ></FaClipboardList>
+                      style={{ color: colors[theme].primary }}
+                    />
                     <span className="is-drawer-close:hidden">
                       My Applications
                     </span>
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    onClick={() => {
-                      setDrawerState(false);
-                    }}
-                    to={"/dashboard/my-reviews"}
-                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="My Reviews"
-                  >
-                    {/* Home icon */}
-                    <FaStar size={24} className="text-indigo-600"></FaStar>
+                  <Link to={"/dashboard/my-reviews"}>
+                    <FaStar
+                      size={24}
+                      style={{ color: colors[theme].primary }}
+                    />
                     <span className="is-drawer-close:hidden">My Reviews</span>
                   </Link>
                 </li>
               </>
             )}
+
+            {/* Moderator Links */}
             {role === "moderator" && (
               <>
                 <li>
-                  <Link
-                    onClick={() => {
-                      setDrawerState(false);
-                    }}
-                    to={"/dashboard/manage-application"}
-                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Manage Application"
-                  >
-                    {/* Home icon */}
+                  <Link to={"/dashboard/manage-application"}>
                     <AiOutlineAppstore
                       size={24}
-                      className="text-indigo-600"
-                    ></AiOutlineAppstore>
+                      style={{ color: colors[theme].primary }}
+                    />
                     <span className="is-drawer-close:hidden">
                       Manage Application
                     </span>
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    onClick={() => {
-                      setDrawerState(false);
-                    }}
-                    to={"/dashboard/manage-reviews"}
-                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Manage Reviews"
-                  >
-                    {/* Manage Review icon */}
+                  <Link to={"/dashboard/manage-reviews"}>
                     <MdRateReview
                       size={24}
-                      className="text-indigo-600"
-                    ></MdRateReview>
+                      style={{ color: colors[theme].primary }}
+                    />
                     <span className="is-drawer-close:hidden">
                       Manage Reviews
                     </span>
@@ -260,14 +270,13 @@ const DashboardLayout = () => {
               </>
             )}
 
-            {/* setting */}
+            {/* Settings */}
             <li>
-              <Link
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Settings"
-              >
-                {/* Settings icon */}
-                <VscSettings size={24} className="text-gray-600" />
+              <Link>
+                <VscSettings
+                  size={24}
+                  style={{ color: colors[theme].textPrimary }}
+                />
                 <span className="is-drawer-close:hidden">Settings</span>
               </Link>
             </li>

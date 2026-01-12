@@ -33,7 +33,6 @@ const ScholarshipDetails = () => {
   }, [axios, id]);
 
   if (!scholarship) return <Loading />;
-
   const handleApplication = () => {
     const application = {
       scholarshipId: scholarship._id,
@@ -51,6 +50,18 @@ const ScholarshipDetails = () => {
         navigate("/dashboard/my-application");
       }
     });
+  };
+  const handleApplyClick = () => {
+    if (!user) {
+      Swal.fire({
+        icon: "info",
+        title: "Not Logged In",
+        text: "Please log in to apply for this scholarship",
+        confirmButtonColor: colors[theme].primary,
+      });
+      return;
+    }
+    handleApplication();
   };
 
   return (
@@ -109,9 +120,8 @@ const ScholarshipDetails = () => {
           <p style={{ color: colors[theme].textSecondary }}>
             <strong>Posted on:</strong> {scholarship.postDate}
           </p>
-
           <button
-            onClick={handleApplication}
+            onClick={handleApplyClick}
             className="mt-4 px-6 py-3 rounded-xl font-semibold shadow hover:shadow-lg hover:scale-105 transition-transform duration-300"
             style={{
               backgroundColor: colors[theme].primary,
